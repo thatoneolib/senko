@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://www.python.org/">
-    <img src="https://img.shields.io/badge/Made%20With-Python%203.9-1182c2?logo=Python&logoColor=white" alt="Made with Python 3.8">
+    <img src="https://img.shields.io/badge/Made%20With-Python%203.9-1182c2?logo=Python&logoColor=white" alt="Made with Python 3.9">
   </a>
   <a href="https://github.com/Rapptz/discord.py">
     <img src="https://img.shields.io/badge/Uses-discord.py-1182c2?logo=Python&logoColor=white" alt="Uses Discord.py">
