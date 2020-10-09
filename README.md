@@ -6,32 +6,23 @@
 
 <p align="center">
   <a href="https://www.python.org/">
-    <img src="https://img.shields.io/badge/Made%20With-Python%203.9-1182c2" alt="Made with Python 3.8">
+    <img src="https://img.shields.io/badge/Made%20With-Python%203.9-1182c2?logo=Python&logoColor=white" alt="Made with Python 3.8">
   </a>
   <a href="https://github.com/Rapptz/discord.py">
-    <img src="https://img.shields.io/badge/Uses-discord.py-1182c2" alt="Uses Discord.py">
+    <img src="https://img.shields.io/badge/Uses-discord.py-1182c2?logo=Python&logoColor=white" alt="Uses Discord.py">
+  </a>
+  <a href="https://trello.com/b/v2gBsOfa/senko">
+    <img src="https://img.shields.io/badge/View%20on-Trello-0079BF?logo=trello&logoColor=0079bf" alt="Trello Board">
   </a>
   <a href="https://github.com/psf/black">
-    <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Codestyle black">
+    <img src="https://img.shields.io/badge/code%20style-black-000000?logo=Python&logoColor=white" alt="Codestyle black">
   </a>
   <a href="https://discord.gg/ymrhJmc">
     <img src="https://img.shields.io/discord/519470571986223127?color=7289DA&label=Discord&logo=discord&logoColor=white" alt="Discord Invite">
   </a>
   <a href="https://discordapp.com/oauth2/authorize?client_id=460047216246128650&scope=bot&permissions=3468352">
-    <img src="https://img.shields.io/badge/Invite-Senko-7289DA.svg?logo=discord&logoColor=white" alt="Invite Senko">
+    <img src="https://img.shields.io/badge/Invite-Senko-7289DA?logo=discord&logoColor=white" alt="Invite Senko">
   </a>
-</p>
-
-<!-- Links -->
-
-<p align="center">
-  <a href="https://senkobot.bitbucket.io">Website</a>
-  •
-  <a href="https://discord.gg/ymrhJmc">Support Server</a>
-  •
-  <a href="https://discordapp.com/oauth2/authorize?client_id=460047216246128650&scope=bot&permissions=3468352">Minimal Invite</a>
-  •
-  <a href="https://discord.com/oauth2/authorize?client_id=460047216246128650&scope=bot&permissions=808774870">Advanced Invite</a>
 </p>
 
 <!-- Contents -->
@@ -60,6 +51,8 @@ Senko-san, written in [Python](https://www.python.org/) using the
 This repository contains the source code for the **rewrite** of Senko, meaning
 that the code you find here is not the one used to run the bot. The goal is for
 that to eventually be the case however.
+
+
 
 # Development
 
