@@ -66,6 +66,10 @@ that to eventually be the case however.
 Senko is a hobby project since her development began sometime in 2018. Since
 early 2020 this rewrite has been planned and is now finally in development.
 
+If you are curious about the ongoing development, you can join the development
+channels in the support server, or check out the
+[Trello Board](https://trello.com/b/v2gBsOfa/senko).
+
 ## Contributions
 
 Regarding contributions, I appreciate people wanting to help, but unless it is
