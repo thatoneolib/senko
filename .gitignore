@@ -1,0 +1,14 @@
+# Caches
+.vscode/
+.pytest_cache/
+__pycache__/
+
+# Directories
+logs/
+docs/build/
+
+# Extensions
+*.py[cod]
+*.log
+*.cfg
+*.xcf
