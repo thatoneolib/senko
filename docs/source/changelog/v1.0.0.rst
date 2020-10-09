@@ -1,0 +1,19 @@
+.. _version_1_0_0:
+
+Version 1.0.0
+#############
+
+.. note::
+
+    This is the changelog file for the rewrite. Everytime a new feature or
+    content is added, an already existing feature is changed or a bug is fixed,
+    it is documented here until the version is released.
+
+Additions
+*********
+
+Changes
+*******
+
+Fixes
+*****

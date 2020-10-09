@@ -1,0 +1,45 @@
+{% extends "!layout.html" %}
+
+{% set show_source = False %}
+
+<!-- extra meta headers -->
+
+{% block extrahead %}
+    <link href="{{ pathto("_static/style.css", True) }}" rel="stylesheet" type="text/css">
+    <meta name="description" content="Nyrm Bot Documentation">
+    <meta name="author" content="Maxee">
+    <meta name="theme-color" content="#343131">
+    <meta name="twitter:card" value="summary">
+    <meta name="twitter:title" content="Nyrm :: Documentation">
+    <meta name="twitter:description" content="Documentation of the Discord bot Nyrm.">
+    <meta name="twitter:image" content="https://nyrm.bitbucket.io/img/favicon.png">
+{% endblock %}
+
+<!-- custom html title -->
+
+{%- block htmltitle %}
+    {%- set titlesuffix = docstitle|e %}
+    <title>{{ docstitle|e }} :: {{ title|striptags|e }}</title>
+
+    <!--
+    {%- if not embedded and docstitle %}
+        {%- set titlesuffix = " :: " + docstitle|e %}
+    {%- else %}
+        {%- set titlesuffix = "" %}
+    {%- endif %}
+    <title>{{ title|striptags|e }}{{ titlesuffix }}</title>
+    -->
+    
+{%- endblock %}
+
+<!-- custom footer contents -->
+
+{%- block footer %}
+    <div class="footer">
+        &copy; {{ copyright }}.
+        {% trans sphinx_version=sphinx_version|e %}Powered by <a href="http://sphinx-doc.org/">Sphinx</a> {{ sphinx_version }}.{% endtrans %}
+    </div>
+    {% if pagename == 'index' %}
+    </div>
+    {% endif %}
+{%- endblock %}

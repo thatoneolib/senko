@@ -1,0 +1,5 @@
+__title__       = "senko"
+__author__      = "Maxee"
+__license__     = "MIT"
+__copyright__   = "Copyright 2020 Maxee"
+__version__     = "0.2.0"
