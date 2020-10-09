@@ -15,7 +15,7 @@
     <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Codestyle black">
   </a>
   <a href="https://discord.gg/ymrhJmc">
-    <img src="https://img.shields.io/discord/724256216703828009?color=7289DA&label=Discord&logo=discord&logoColor=white" alt="Discord Invite">
+    <img src="https://img.shields.io/discord/519470571986223127?color=7289DA&label=Discord&logo=discord&logoColor=white" alt="Discord Invite">
   </a>
   <a href="https://discordapp.com/oauth2/authorize?client_id=460047216246128650&scope=bot&permissions=3468352">
     <img src="https://img.shields.io/badge/Invite-Senko-7289DA.svg?logo=discord&logoColor=white" alt="Invite Senko">
