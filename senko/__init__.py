@@ -3,3 +3,6 @@ __author__      = "Maxee"
 __license__     = "MIT"
 __copyright__   = "Copyright 2020 Maxee"
 __version__     = "1.0.0"
+
+from .bot import Senko
+from .db import init_db
