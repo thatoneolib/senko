@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/badge/Uses-discord.py-1182c2?logo=Python&logoColor=white" alt="Uses Discord.py">
   </a>
   <a href="https://trello.com/b/v2gBsOfa/senko">
-    <img src="https://img.shields.io/badge/View%20on-Trello-0079BF?logo=trello&logoColor=0079bf" alt="Trello Board">
+    <img src="https://img.shields.io/badge/View%20on-Trello-0079BF?logo=trello&logoColorwhite" alt="Trello Board">
   </a>
   <a href="https://github.com/psf/black">
     <img src="https://img.shields.io/badge/code%20style-black-000000?logo=Python&logoColor=white" alt="Codestyle black">
