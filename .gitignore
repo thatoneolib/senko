@@ -12,3 +12,6 @@ docs/build/
 *.log
 *.cfg
 *.xcf
+
+# Files
+config.py
