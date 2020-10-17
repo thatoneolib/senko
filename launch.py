@@ -47,14 +47,8 @@ class Launcher:
         except OSError:
             pass
 
-        # Use asyncio.ProactorEventLoop on windows as it is needed
-        # to be able to use asyncio.create_subprocess_exec.
-        if sys.platform == "win32":
-            self.loop = asyncio.ProactorEventLoop()
-            asyncio.set_event_loop(self.loop)
-        else:
-            self.loop = asyncio.get_event_loop()
-            asyncio.set_event_loop(self.loop)
+        self.loop = asyncio.get_event_loop()
+        asyncio.set_event_loop(self.loop)
 
         # Set up logging with a handler for stdout and a log file.
         root = logging.getLogger()
