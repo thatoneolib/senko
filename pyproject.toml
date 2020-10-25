@@ -1,12 +1,10 @@
 [tool.autopep8]
-max_line_length = 80
-ignore = [
-    "E501"
-]
+max_line_length = 88
+ignore = ['E501']
 
 [tool.black]
-line-length = 80
-target-version = ["py38"]
+line-length = 88
+target-version = ['py38']
 include = '\.py?$'
 exclude = '''
 /(
