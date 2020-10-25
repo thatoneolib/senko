@@ -36,6 +36,8 @@
   • 
   <a href="#license">License</a>
   •
+  <a href="#hosting-senko">Hosting</a>
+  •
   <a href="#attributions">Attributions</a>
   <br>
 </p>
@@ -52,8 +54,6 @@ This repository contains the source code for the **rewrite** of Senko, meaning
 that the code you find here is not the one used to run the bot. The goal is for
 that to eventually be the case however.
 
-
-
 # Development
 
 Senko is a hobby project since her development began sometime in 2018. Since
@@ -65,11 +65,10 @@ channels in the support server, or check out the
 
 ## Contributions
 
-Regarding contributions, I appreciate people wanting to help, but unless it is
-explicitly bug fixes with good documentation, it is unlikely that I will merge
-the pull requests.
-
-For feature request and feedback, please join the support server.
+I appreciate people wanting to help, but unless it is bug fixes that are
+properly documented, it is unlikely that I will merge the pull request. For
+feature requests and feedback, please consider joining the support server
+instead.
 
 # Join the Community
 
@@ -81,21 +80,14 @@ feedback on the bot or report a bug, this is the place to make your voice heard.
 
 Senko is released under the [MIT License](LICENSE). 
 
-In addition, please mind the following restrictions regarding self-hosting:
+# Hosting Senko
 
-* You may not use the name of Senko or the logo of the project in derivate bots.
-* You may not host a public version of Senko.
+I would prefer if you do not run an instance of Senko. Instead, please consider
+inviting the bot I am hosting through either the ``invite`` command, or using
+[this link](https://discordapp.com/oauth2/authorize?client_id=460047216246128650&scope=bot&permissions=3468352).
 
-This means that while you can create your own derivate of Senko (provided you
-give proper attribution), or host a private instance of her, you can not
-create an identical clone.
-
-These restrictions exist for a couple of reasons. First, Discord has stated that
-they would like for verified bots, if their code is public, to restrict the
-creation of bots that could be seen as clones. 
-
-Second, the intent behind making Senko's code public is to allow other people to
-learn from it, not promote the creation of copy and paste clones.
+If you still want to host your own instance of Senko, please refer to the
+installation guide in the documentation.
 
 # Attributions
 
