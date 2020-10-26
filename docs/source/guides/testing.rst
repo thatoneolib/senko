@@ -17,17 +17,15 @@ tests require the ``pytest`` and ``pytest-asyncio`` modules to be installed.
 If you have not yet installed these modules, you can do so by running
 ``pip install pytest pytest-asyncio``.
 
-Some tests require a connection to a test database. The connection is made using
-the following credentials, as defined in the :func:`tests.conftest.database`
-fixture.
+Some tests may require a connection to a test database. The connection is made
+using the following values, as defined in the :func:`tests.conftest.database`
+fixture. Please also ensure that the user has full rights to the database.
 
 ======= =========== =========== ======= ========
 User    Password    Host        Port    Database
 ======= =========== =========== ======= ========
 test    test        localhost   5432    test
 ======= =========== =========== ======= ========
-
-Please ensure that the ``test`` user has full rights to the ``test`` database.
 
 Running Tests
 *************
