@@ -168,17 +168,29 @@ class Launcher:
         # Create the bot instance.
         self.log.info("Setting up bot.")
         try:
-            self.bot = senko.Senko(db=self.db, session=self.session, loop=self.loop)
+            bot = senko.Senko(db=self.db, session=self.session, loop=self.loop)
         except Exception as exc:
             self.log.exception("An error occured during initialization!", exc_info=exc)
             self.exit_code = 1
             return
 
+        # Load locales.
+        self.log.info("Loading locales.")
+        locale_dir = os.path.join(self.path, "data", "locales")
+        locales = list(set(config.locales + [config.locale]))
+        for locale in locales:
+            try:
+                bot.locales.load(os.path.join(locale_dir, f"{locale}.mo"))
+            except Exception as exc:
+                self.log.exception(f"An error occured while loading {locale!r}!", exc_info=exc)
+                self.exit_code = 1
+                return
+
         # Load extensions.
         self.log.info("Loading extensions.")
         for ext in config.extensions:
             try:
-                self.bot.load_extension(f"cogs.{ext}")
+                bot.load_extension(f"cogs.{ext}")
             except Exception as exc:
                 self.log.exception(f"An error occured while loading {ext!r}!", exc_info=exc)
                 self.exit_code = 1
@@ -188,7 +200,7 @@ class Launcher:
 
         # Run the bot.
         try:
-            self.exit_code = self.bot.run()
+            self.exit_code = bot.run()
         except Exception as exc:
             self.log.exception("An error occured while running!", exc_info=exc)
             self.exit_code = 1

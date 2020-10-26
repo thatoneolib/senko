@@ -1,6 +1,9 @@
 import logging
+import os
 
 from discord.ext import commands
+
+from .i18n import Locales
 
 
 class Senko(commands.AutoShardedBot):
@@ -19,8 +22,16 @@ class Senko(commands.AutoShardedBot):
         An aiohttp client session.
     \*\*kwargs
         Keyword arguments to pass on to the parent class.
-    """
 
+    Attributes
+    ----------
+    db: asyncpg.pool.Pool
+        The database connection pool.
+    session: aiohttp.ClientSession
+        An aiohttp client session.
+    locales: senko.Locales
+        A pool of loaded locales.
+    """
     def __init__(self, *args, db=None, session=None, **kwargs):
         # Default parameters
         command_prefix = kwargs.pop("command_prefix", None)
@@ -40,23 +51,13 @@ class Senko(commands.AutoShardedBot):
 
         # Attributes
         self.log = logging.getLogger("senko.bot")
-        self._db = db
-        self._session = session
+        self.db = db
+        self.session = session
+
         self._exit_code = 0
 
-    @property
-    def db(self):
-        """
-        asyncpg.pool.Pool: The database connection pool.
-        """
-        return self._db
-
-    @property
-    def session(self):
-        """
-        aiohttp.ClientSession: An aiohttp client session.
-        """
-        return self._session
+        # Interfaces
+        self.locales = Locales(default=self.config.locale)
 
     @property
     def config(self):

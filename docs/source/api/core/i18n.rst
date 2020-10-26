@@ -1,0 +1,45 @@
+.. _i18n:
+
+I18n
+####
+
+Senko's translation framework is based on :py:mod:`gettext` and supports
+multiple translations to be used simultaneously through the
+:class:`~senko.Locales` class.
+
+.. note::
+
+    This section documents the internal API of the ``i18n`` framework. If you
+    are looking for a guide on how to translate Senko, please refer to the
+    :ref:`localization guide <localization>` instead.
+
+Locales
+*******
+
+The locales class acts as a collection of :class:`~senko.Locale` objects. 
+A central instance of this class is available under :attr:`senko.Senko.locales`.
+
+.. autoclass:: senko.Locales
+    :members:
+
+Locale
+*******
+
+:class:`~senko.Locale` objects extend the :py:class:`gettext.GNUTranslations`
+class with a ``__call__`` method and some additional properties to make working
+with them a bit more comfortable. Instances of this class are provided by the
+:class:`~senko.Locales` object of the bot.
+
+.. autoclass:: senko.Locale
+    :members: gettext, ngettext, __call__
+
+NullLocale
+**********
+
+To complement the :class:`~senko.Locale` class an equivalent subclass of
+:py:class:`gettext.NullTranslations` exists that provides the same attributes
+as :class:`~senko.Locale`.
+
+.. autoclass:: senko.NullLocale
+    :members: gettext, ngettext, __call__
+    
