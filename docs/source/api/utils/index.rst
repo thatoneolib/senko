@@ -10,3 +10,4 @@ This page contains lists the API references for all modules contained in
     :maxdepth: 2
     :caption: Utility Reference
 
+    caches

@@ -8,3 +8,4 @@ from .i18n import Locale, NullLocale, Locales
 from .bot import Senko
 from .db import init_db
 from .assets import Images, Emojis
+from . import utils
