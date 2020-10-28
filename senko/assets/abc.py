@@ -187,7 +187,6 @@ class AssetLibrary(abc.ABC):
         """
         self.missing = set()
 
-
     def __len__(self):
         return len(self.objects)
 

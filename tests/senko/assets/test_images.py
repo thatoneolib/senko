@@ -4,6 +4,7 @@ import uuid
 
 import pytest
 import senko
+
 # Constants
 
 IMAGE = "https://cdn.discordapp.com/attachments/123456789/123456789/image.png"

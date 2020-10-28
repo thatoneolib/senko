@@ -54,8 +54,11 @@ class Launcher:
         root = logging.getLogger()
         root.setLevel(logging.INFO)
 
-        logging.getLogger("discord").setLevel(logging.INFO) #.WARNING)
-        logging.getLogger("discord.http").setLevel(logging.INFO) #.WARNING)
+        for domain, level in config.logging_levels:
+            logging.getLogger(domain).setLevel(level)
+
+        logging.getLogger("discord").setLevel(logging.WARNING)
+        logging.getLogger("discord.http").setLevel(logging.WARNING)
 
         streamHandler = logging.StreamHandler(stream=sys.stdout)
 
@@ -67,7 +70,7 @@ class Launcher:
             utc=True,
         )
 
-        fmt = "[{asctime}] [{levelname:<8}] {name}: {message}"
+        fmt = "{asctime} | {levelname:<8} | {name}: {message}"
         date = "%d.%m.%Y %H:%M:%S"
         formatter = logging.Formatter(fmt, date, style="{")
 
