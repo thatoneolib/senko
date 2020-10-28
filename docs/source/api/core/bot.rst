@@ -9,8 +9,25 @@ modifications made to it that enable advanced behavior.
 Modifications
 *************
 
-* The ``command_prefix`` defaults to the :data:`config.prefix` or a mention.
-* The ``case_insensitive`` parameter is set to ``true`` by default.
+* The ``intents`` parameter it set to the following :class:`discord.Intents`
+  confguration. The member cache flags are generated accordingly.
+
+  .. code-block::
+
+      intents = discord.Intents(
+          guilds=True,
+          members=True,
+          bans=True,
+          emojis=True,
+          messages=True,
+          reactions=True,
+      )
+
+* The ``command_prefix`` parameter is set to the :data:`config.prefix` or a
+  mention.
+* The ``case_insensitive`` parameter is set to ``True``.
+* The ``chunk_at_startup`` parameter is set to ``False``.
+* The ``guild_subscriptions`` parameter is set to ``False``.
 * The database connection pool is exposed as :attr:`senko.Senko.db`.
 * The client session is exposed as :attr:`senko.Senko.session`.
 * The :ref:`configuration` is exposed as :attr:`senko.Senko.config`.

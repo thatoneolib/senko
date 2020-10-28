@@ -39,14 +39,15 @@ class Senko(commands.AutoShardedBot):
     def __init__(self, db, session, loop):
         
         # Prepare and call the parent constructor.
-        intents = discord.Intents.all()
-        intents.presences = False # Requires verification.
-        intents.integrations = False
-        intents.webhooks = False
-        intents.invites = False
-        intents.voice_states = False
-        intents.typing = False
-        
+        intents = discord.Intents(
+            guilds=True,
+            members=True,
+            bans=True,
+            emojis=True,
+            messages=True,
+            reactions=True,
+        )
+
         member_cache_flags = discord.MemberCacheFlags.from_intents(intents)
         command_prefix = commands.when_mentioned_or(self.config.prefix)
 
