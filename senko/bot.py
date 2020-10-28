@@ -1,5 +1,6 @@
 import logging
 import os
+import datetime
 
 import discord
 from discord.ext import commands
@@ -56,11 +57,29 @@ class Senko(commands.AutoShardedBot):
         self.log = logging.getLogger("senko.bot")
         self.db = db
         self.session = session
-        
+        self.path = os.getcwd()
+        self._uptime = datetime.datetime.now(tz=datetime.timezone.utc)
         self._exit_code = 0
 
         # Interfaces
         self.locales = Locales(default=self.config.locale)
+
+    # Properties
+
+    @property
+    def startup_time(self):
+        """
+        datetime.datetime: An aware utc datetime of when the bot instance was created.
+        """
+        return self._uptime
+
+    @property
+    def uptime(self):
+        """
+        datetime.timedelta: A timedelta representing the total uptime of the bot.
+        """
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        return now - self._uptime
 
     @property
     def config(self):
