@@ -28,6 +28,7 @@ class AssetLibrary(abc.ABC):
         self.logger = logging.getLogger("senko.assets")
         self.sentinel = sentinel
         self.objects = dict()
+        self.missing = set()
 
     def load_file(self, file):
         """
@@ -108,6 +109,7 @@ class AssetLibrary(abc.ABC):
             return self.objects[key]
         except KeyError:
             self.logger.debug(f"The {key!r} key is missing!")
+            self.add_missing(key)
             return fallback or self.sentinel
 
     def has(self, key):
@@ -155,6 +157,36 @@ class AssetLibrary(abc.ABC):
         Unloads all assets.
         """
         self.objects = dict()
+        self.clear_missing()
+
+    def add_missing(self, key):
+        """
+        Mark an asset as missing.
+
+        Parameters
+        ----------
+        key: str
+            The asset key.
+        """
+        self.missing.add(key)
+
+    def get_missing(self):
+        """
+        Get the keys of all missing assets.
+
+        Returns
+        -------
+        List[str]
+            A list of asset keys.
+        """
+        return sorted(list(self.missing))
+
+    def clear_missing(self):
+        """
+        Clear the missing key list.
+        """
+        self.missing = set()
+
 
     def __len__(self):
         return len(self.objects)
@@ -164,4 +196,5 @@ class AssetLibrary(abc.ABC):
             return self.objects[key]
         except KeyError:
             self.logger.debug(f"The {key!r} key is missing!")
+            self.add_missing(key)
             raise
