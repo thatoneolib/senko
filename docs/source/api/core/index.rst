@@ -12,3 +12,4 @@ Core Reference
     bot
     database
     i18n
+    assets

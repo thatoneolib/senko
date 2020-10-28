@@ -1,4 +1,4 @@
-.. _database:
+.. _core_database:
 
 Database
 ########

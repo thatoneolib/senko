@@ -7,3 +7,4 @@ __version__     = "1.0.0"
 from .i18n import Locale, NullLocale, Locales
 from .bot import Senko
 from .db import init_db
+from .assets import Images, Emojis

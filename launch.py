@@ -174,30 +174,6 @@ class Launcher:
             self.exit_code = 1
             return
 
-        # Load locales.
-        self.log.info("Loading locales.")
-        locale_dir = os.path.join(self.path, "data", "locales")
-        locales = list(set(config.locales + [config.locale]))
-        for locale in locales:
-            try:
-                bot.locales.load(os.path.join(locale_dir, f"{locale}.mo"))
-            except Exception as exc:
-                self.log.exception(f"An error occured while loading {locale!r}!", exc_info=exc)
-                self.exit_code = 1
-                return
-
-        # Load extensions.
-        self.log.info("Loading extensions.")
-        for ext in config.extensions:
-            try:
-                bot.load_extension(f"cogs.{ext}")
-            except Exception as exc:
-                self.log.exception(f"An error occured while loading {ext!r}!", exc_info=exc)
-                self.exit_code = 1
-                return
-        
-        self.log.info(f"Loaded {len(config.extensions)} extension(s).")
-
         # Run the bot.
         try:
             self.exit_code = bot.run()

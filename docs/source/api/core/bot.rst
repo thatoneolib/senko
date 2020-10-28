@@ -1,4 +1,4 @@
-.. _bot:
+.. _core_bot:
 
 Bot
 ###

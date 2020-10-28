@@ -5,7 +5,7 @@ import datetime
 import discord
 from discord.ext import commands
 
-from .i18n import Locales
+import senko
 
 
 class Senko(commands.AutoShardedBot):
@@ -20,7 +20,9 @@ class Senko(commands.AutoShardedBot):
         An asyncpg database connection pool.
     session: aiohttp.ClientSession
         An aiohttp client session.
-
+    loop: asyncio.AbstractEventLoop
+        The event loop to use.
+    
     Attributes
     ----------
     db: asyncpg.pool.Pool
@@ -29,8 +31,12 @@ class Senko(commands.AutoShardedBot):
         An aiohttp client session.
     locales: senko.Locales
         A pool of loaded locales.
+    emotes: senko.Emojis
+        The asset library for emojis.
+    images: senko.Images
+        The asset library for images.
     """
-    def __init__(self, db, session):
+    def __init__(self, db, session, loop):
         
         # Prepare and call the parent constructor.
         intents = discord.Intents.all()
@@ -45,6 +51,7 @@ class Senko(commands.AutoShardedBot):
         command_prefix = commands.when_mentioned_or(self.config.prefix)
 
         super().__init__(
+            loop=loop,
             intents=intents,
             member_cache_flags=member_cache_flags,
             command_prefix=command_prefix,
@@ -61,8 +68,49 @@ class Senko(commands.AutoShardedBot):
         self._uptime = datetime.datetime.now(tz=datetime.timezone.utc)
         self._exit_code = 0
 
-        # Interfaces
-        self.locales = Locales(default=self.config.locale)
+        # Locales
+        self.locales = senko.Locales(default=self.config.locale)
+
+        locale_dir = os.path.join(self.path, "data", "locales")
+        for locale in self.config.locales:
+            try:
+                self.locales.load(os.path.join(locale_dir, f"{locale}.mo"))
+            except Exception as e:
+                self.log.exception(f"Could not load locale {locale!r}!", exc_info=e)
+
+        # Emojis
+        self.emotes = senko.Emojis()
+        self.emotes.load_dir(os.path.join(self.path, "data", "emojis"))
+
+        # Images
+        self.images = senko.Images()
+        self.images.load_dir(os.path.join(self.path, "data", "images"))
+
+        # Extensions
+        for ext in self.config.extensions:
+            self.load_extension(f"cogs.{ext}")
+        
+        self.log.info(f"Loaded {len(self.config.extensions)} extension(s).")
+
+    # Reloading
+
+    def setup_modules(self):
+        """
+        Set up the internal modules.
+        """
+
+    def setup_cogs(self):
+        """
+        Load all extensions defined in :data:`config.extensions`.
+        """
+        for ext in self.config.extensions:
+            self.load_extension(ext)
+
+    def reload(self):
+        """
+        Reload the core package and all extensions.
+        """
+
 
     # Properties
 
