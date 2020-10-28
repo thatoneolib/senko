@@ -2,7 +2,7 @@
 import time
 import pytest
 
-from senko.utils.caches import Cache, LRUCache, TTLCache
+from senko.utils.caching import Cache, LRUCache, TTLCache
 
 @pytest.mark.parametrize("cache", [Cache(1), LRUCache(1), TTLCache(1, ttl=60)])
 def test_insert(cache):
