@@ -4,6 +4,7 @@ import functools
 
 __all__ = ("hash_key", "cached_function", "cached_method", "cached_property")
 
+# pylint: disable=function-redefined
 
 _marker = (object(),)
 
@@ -89,7 +90,6 @@ def cached_function(cache, key=hash_key, lock=None):
 
         # Asynchronous wrapper without lock:
         if inspect.iscoroutinefunction(func):
-            # pylint: disable=function-redefined
             async def wrapper(*args, **kwargs):
                 k = key(*args, **kwargs)
                 try:
@@ -100,7 +100,6 @@ def cached_function(cache, key=hash_key, lock=None):
 
         # Synchronous wrapper with lock
         elif lock is not None:
-            # pylint: disable=function-redefined
             def wrapper(*args, **kwargs):
                 k = key(*args, **kwargs)
                 try:
@@ -113,7 +112,6 @@ def cached_function(cache, key=hash_key, lock=None):
 
         # Synchronous wrapper without lock
         else:
-            # pylint: disable=function-redefined
             def wrapper(*args, **kwargs):
                 k = key(*args, **kwargs)
                 try:
@@ -188,7 +186,6 @@ def cached_method(cache, key=hash_key, lock=None, slot=None):
 
         # Asynchronous wrapper without lock:
         if inspect.iscoroutinefunction(func):
-            # pylint: disable=function-redefined
             async def wrapper(self, *args, **kwargs):
                 c = cache(self)
                 k = key(*args, **kwargs)
@@ -200,7 +197,6 @@ def cached_method(cache, key=hash_key, lock=None, slot=None):
 
         # Synchronous wrapper with lock
         elif lock is not None:
-            # pylint: disable=function-redefined
             def wrapper(self, *args, **kwargs):
                 c = cache(self)
                 k = key(*args, **kwargs)
@@ -214,7 +210,6 @@ def cached_method(cache, key=hash_key, lock=None, slot=None):
 
         # Synchronous wrapper without lock
         else:
-            # pylint: disable=function-redefined
             def wrapper(self, *args, **kwargs): 
                 c = cache(self)
                 k = key(*args, **kwargs)
