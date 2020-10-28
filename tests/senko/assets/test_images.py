@@ -28,10 +28,6 @@ def image_lib(image_file):
 # Tests
 
 def test_image_library_load_file(image_file):
-    library = senko.Images()
-    library.load_file(image_file)
-
-def test_image_library_load_file(image_file):
     lib = senko.Images()
     lib.load_file(image_file)
 
