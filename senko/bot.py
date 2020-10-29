@@ -93,26 +93,6 @@ class Senko(commands.AutoShardedBot):
         
         self.log.info(f"Loaded {len(self.config.extensions)} extension(s).")
 
-    # Reloading
-
-    def setup_modules(self):
-        """
-        Set up the internal modules.
-        """
-
-    def setup_cogs(self):
-        """
-        Load all extensions defined in :data:`config.extensions`.
-        """
-        for ext in self.config.extensions:
-            self.load_extension(ext)
-
-    def reload(self):
-        """
-        Reload the core package and all extensions.
-        """
-
-
     # Properties
 
     @property
