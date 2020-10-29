@@ -15,3 +15,4 @@ This page contains lists the API references for all modules contained in
     database
     i18n
     assets
+    colour
