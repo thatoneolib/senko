@@ -117,6 +117,65 @@ class Senko(commands.AutoShardedBot):
         """
         return __import__("config")
 
+    # Context methods
+
+    async def get_context(self, message, cls=senko.CommandContext):
+        """
+        Get a command context for the given message.
+
+        This method overrides :meth:`discord.ext.commands.Bot.get_context`.
+        
+        Parameters
+        ----------
+        message: discord.Message
+            The message to get the context for.
+        cls
+            The factory class to use to create the command context.
+            Defaults to :class:`senko.CommandContext`.
+        
+        Returns
+        -------
+        senko.CommandContext
+            The command context for the given message. The type
+            of this may change depending on the ``cls`` argument.
+        """
+        context = await super().get_context(message, cls=cls)
+
+        # Set custom attributes.
+        # TODO: Fetch these from guild settings.
+        context._locale = self.locales.get(self.config.locale)
+        context._default_prefix = self.config.prefix
+
+        return context
+
+    async def get_partial_context(self, user, channel, cls=senko.PartialContext):
+        """
+        Get a partial context for the given user and channel.
+
+        Parameters
+        ----------
+        user: Union[discord.User, discord.Member]
+            The user to associate with the context.
+        channel: discord.TextChannel
+            The text channel to associate with the context.
+        cls
+            The factory class used to create the partial context.
+            By default, this is :class:`PartialContext`.
+
+        Returns
+        -------
+        senko.PartialContext
+            A partial context. The type of this may change
+            depending on the ``cls`` argument.
+        """
+        # TODO: Fetch these from guild settings.
+        prefix = self.config.prefix
+        locale = self.locales.get(self.config.locale)
+
+        return cls(self, user, channel, locale, prefix)
+
+    # Runtime methods
+
     async def close(self, code=None):
         """
         Close the connection to Discord and shut the bot down.

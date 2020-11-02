@@ -16,3 +16,8 @@ This page contains lists the API references for all modules contained in
     i18n
     assets
     colour
+    context
+..    command
+    group
+    cog
+    category
