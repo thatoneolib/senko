@@ -44,11 +44,14 @@ def build_embed(**kwargs):
     embed = discord.Embed()
     embed.title = kwargs.get("title", EMPTY)
     embed.description = kwargs.get("description", EMPTY)
-    embed.colour = kwargs.get("colour", senko.Colour.default())
     embed.timestamp = kwargs.get("timestamp", EMPTY)
     embed.url = kwargs.get("url", EMPTY)
     embed.set_image(url=kwargs.get("image", EMPTY))
     embed.set_thumbnail(url=kwargs.get("thumbnail", EMPTY))
+
+    colour = kwargs.get("colour", senko.Colour.default())
+    if colour is not None:
+        embed.colour = colour
 
     author = kwargs.get("author", EMPTY)
     if isinstance(author, dict):
