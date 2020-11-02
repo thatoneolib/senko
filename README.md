@@ -50,9 +50,10 @@ Senko is an entertainment bot for Discord themed around Sewayaki Kitsune no
 Senko-san, written in [Python](https://www.python.org/) using the
 [discord.py](https://github.com/Rapptz/discord.py) library.
 
-This repository contains the source code for the **rewrite** of Senko, meaning
-that the code you find here is not the one used to run the bot. The goal is for
-that to eventually be the case however.
+> This repository contains the source code for the **rewrite** of Senko, meaning
+> that the code you find here is not the one used to run the bot. Once the
+> rewrite has caught up with the current version in terms of features, the bot
+> will run on this codebase.
 
 # Development
 
