@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 import babel
 import discord
 import senko
@@ -113,3 +115,79 @@ class CommandContext(commands.Context):
                 return babel.Locale.parse(self.bot.config.locale)
             except babel.UnknownLocaleError:
                 return babel.Locale.parse("en_GB")
+
+    async def embed(self, content=None, **kwargs):
+        r"""
+        Send an embed in the context channel.
+
+        This function automatically sets the :attr:`discord.Embed.footer`
+        of the embed to the avatar and name of the user associated with
+        the context.
+
+        The :attr:`discord.Embed.timestamp` is set to the current time.
+
+        Parameters
+        ----------
+        content: Optional[str]
+            The message content.
+        tts: Optional[bool]
+            Indicates if the message should be sent using tts.
+        file: Optional[discord.File]
+            A file to upload
+        files: List[discord.File]
+            A list of files to upload. Must not exceed 10.
+        nonce: int
+            The nonce to use for sending this message. If the message
+            was sent successfully, it wil have a nonce with this value.
+        delete_after: Optional[float]
+            The number of seconds to wait before deleting the message
+            that was sent. If deletion fails, it is silently ignored.
+        allowed_mentions: Optional[discord.AllowedMentions]
+            Controls the mentions being processed in this message.
+        \*\*kwargs
+            Keyword arguments to pass into :meth:`senko.utils.io.build_embed`.
+
+        Returns
+        -------
+        discord.Message
+            The message that was sent.
+        """
+        # Extract regular parameters.
+        content = content
+        tts = kwargs.pop("tts", False)
+        file = kwargs.pop("file", None)
+        files = kwargs.pop("files", None)
+        delete_after = kwargs.pop("delete_after", None)
+        nonce = kwargs.pop("nonce", None)
+        allowed_mentions = kwargs.pop("allowed_mentions", None)
+
+        # Apply timestamp and user information.
+        footer_dict = kwargs.pop("footer", dict())
+        footer_text = None
+        footer_icon = self.user.avatar_url
+
+        if isinstance(footer_dict, str):
+            _ = self.locale
+            # Note: Format string for embed footers with user indicator.
+            # DEFAULT: {name} • {footer}
+            fmt = _("{name} • {footer}")
+            footer_text = fmt.format(name=self.user, footer=footer_dict)
+        else:
+            footer_text = footer_dict.get("text", str(self.user))
+
+        kwargs["footer"] = dict(text=footer_text, icon_url=footer_icon)
+        kwargs["timestamp"] = datetime.now(tz=timezone.utc)
+
+        embed = senko.utils.io.build_embed(**kwargs)
+
+        # Send and return the message.
+        return await self.send(
+            content=content,
+            tts=tts,
+            file=file,
+            files=files,
+            embed=embed,
+            delete_after=delete_after,
+            nonce=nonce,
+            allowed_mentions=allowed_mentions,
+        )
