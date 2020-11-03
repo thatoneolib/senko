@@ -34,6 +34,8 @@ Modifications
 * The :func:`~senko.Senko.close` method now takes an optional ``code`` parameter
   to set the exit code returned by :func:`~senko.Senko.run`.
 * The :func:`senko.Senko.run` method no longer takes a ``token`` parameter.
+* Added commands without a cooldown receive a cooldown of 3 seconds per user.
+* The 3 second cooldown is also applied to children of added command groups.
 
 Reference
 *********

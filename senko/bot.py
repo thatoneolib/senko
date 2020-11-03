@@ -119,6 +119,21 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         """
         return __import__("config")
 
+    # Command methods
+
+    def add_command(self, command):       
+        super().add_command(command)
+
+        # Add a default cooldown of three seconds / user.
+        queue = [command]
+        for command in queue:
+            if isinstance(command, senko.Group):
+                queue += command.commands
+
+            if not command._buckets.valid:
+                cooldown = commands.Cooldown(1, 3, commands.BucketType.user)
+                command._buckets = commands.CooldownMapping(cooldown)
+
     # Context methods
 
     async def get_context(self, message, cls=senko.CommandContext):
