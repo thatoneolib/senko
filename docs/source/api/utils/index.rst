@@ -12,3 +12,4 @@ This page contains lists the API references for all modules contained in
 
     caching
     io
+    dict
