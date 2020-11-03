@@ -214,7 +214,7 @@ class Emoji(commands.EmojiConverter):
         try:
             return await super().convert(ctx, argument)
         except commands.EmojiNotFound as e:
-            _ = ctx.translation
+            _ = ctx.locale
             # NOTE: Error message for the emoji converter.
             message = _('I could not find the "{}" emoji.')
             cleaned = await clean(ctx, argument)
@@ -232,7 +232,7 @@ class PartialEmoji(commands.PartialEmojiConverter):
         try:
             return await super().convert(ctx, argument)
         except commands.PartialEmojiConversionFailure as e:
-            _ = ctx.translation
+            _ = ctx.locale
             # NOTE: Error message for the emoji converter.
             message = _('I could not find the "{}" emoji.')
             cleaned = await clean(ctx, argument)
