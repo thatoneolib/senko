@@ -18,6 +18,16 @@ The following changes have been made:
 * The :attr:`~senko.command.overrides.CommandOverrides.locale_id` attribute has been added.
 * Various ``get_`` methods have been added that allow access to localized variants of otherwise untranslatable attributes.
 
+Decorators
+**********
+
+These decorators are analogue to :func:`~discord.ext.commands.command` and
+:func:`~discord.ext.commands.group`, but create :class:`senko.Command` and
+:class:`senko.Group` commands by default.
+
+.. autofunction:: senko.command
+.. autofunction:: senko.group
+
 Command
 *******
 
