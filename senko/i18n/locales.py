@@ -16,6 +16,7 @@ class Locales:
         self.locales = dict()
         self._default = default
         self._fallback = NullLocale(language=self._default)
+        self._mixins = list()
 
     @property
     def default(self):
@@ -25,6 +26,56 @@ class Locales:
             available, this returns a :class:`senko.NullLocale`.
         """
         return self.locales.get(self._default, self._fallback)
+
+    def add_mixin(self, mixin):
+        """
+        Add a :class:`senko.LocaleMixin`-derived object to the list of 
+        mixins to notify when the set of available locales changes.
+
+        Parameters
+        ----------
+        mixin: senko.LocaleMixin
+            The mixin to add.
+        """
+        self._mixins.append(mixin)
+
+    def remove_mixin(self, mixin):
+        """
+        Remove a :class:`senko.LocaleMixin`-derived object from the list
+        of mixiuns to notify when the set of available locales changes.
+
+        Parameters
+        ----------
+        mixin: senko.LocaleMixin
+            The mixin to remove.
+        """
+        self._mixins.remove(mixin)
+
+    def publish_locale(self, locale):
+        r"""
+        Publish a :class:`senko.Locale` to all subscribed
+        :class:`senko.LocaleMixin`\ s.
+
+        Parameters
+        ----------
+        locale: senko.Locale
+            The locale to publish.
+        """
+        for mixin in self._mixins:
+            mixin._add_locale(locale)
+
+    def unpublish_locale(self, locale):
+        r"""
+        Unpublich a :class:`senko.Locale`, removing it from all
+         subscribed :class:`senko.LocaleMixin`\ s.
+
+        Parameters
+        ----------
+        locale: senko.Locale
+            The locale to unpublish.
+        """
+        for mixin in self._mixins:
+            mixin._remove_locale(locale)
 
     def load(self, file):
         """
@@ -50,6 +101,9 @@ class Locales:
 
         self.locales[locale.language] = locale
 
+        # Publich the locale to subscribed mixins.
+        self.publish_locale(locale)
+
     def unload(self, locale):
         """
         Unload a locale.
@@ -73,6 +127,9 @@ class Locales:
         if removed.language == self._default:
             for other in self.locales.values():
                 other._fallback = None
+        
+        # Unpublish the locale from subscribed mixins.
+        self.unpublish_locale(removed)
 
     def reload(self, locale):
         """

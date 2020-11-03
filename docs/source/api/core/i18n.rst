@@ -7,6 +7,13 @@ Senko's translation framework is based on :py:mod:`gettext` and supports
 multiple translations to be used simultaneously through the
 :class:`~senko.Locales` class.
 
+In addition to allowing regular messages to be localized, the i18n system
+further provides a :class:`~senko.LocaleMixin` that plays an important role
+in making command invocation be possible using localized command names.
+
+For a detailed explaination on how this was made possible, please refer to
+:ref:`core_i18n_locale_mixin`.
+
 .. note::
 
     This section documents the internal API of the ``i18n`` framework. If you
@@ -43,3 +50,24 @@ as :class:`~senko.Locale`.
 .. autoclass:: senko.NullLocale
     :members: gettext, ngettext, __call__
     
+.. _core_i18n_locale_mixin:
+
+Locale Mixin
+************
+
+The :class:`~senko.LocaleMixin` is used to add support for localized command
+invocation to classes that inherit from :class:`discord.ext.commands.GroupMixin`.
+The steps taken to support localized command invocation are as follows:
+
+* When a :class:`senko.LocaleMixin` is created, its locale source is set to :attr:`senko.Senko.locales`.
+
+    * For :class:`senko.Senko`, this step is done in the constructor.
+    * For :class:`senko.Group`, this step is done in :meth:`senko.LocaleMixin.add_command`.
+
+* :class:`senko.Senko` and :class:`senko.Group` inherit from :class:`senko.LocaleMixin`.
+* When :meth:`senko.Senko.get_context` is called, the command is looked up using :meth:`senko.LocaleMixin.get_command`.
+* When :meth:`senko.Group.invoke` is called, the command is looked up using :meth:`senko.LocaleMixin.get_command`.
+* When :meth:`senko.Group.reinvoke` is called, the command is looked up using :meth:`senko.LocaleMixin.get_command`.
+
+.. autoclass:: senko.LocaleMixin
+    :members:

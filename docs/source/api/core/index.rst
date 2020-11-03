@@ -17,7 +17,7 @@ This page contains lists the API references for all modules contained in
     assets
     colour
     context
+    command
     converters
-..    command
 ..     cog
 ..     category

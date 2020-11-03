@@ -11,11 +11,11 @@ from .colour import Colour
 
 # Assets
 from .assets import Emojis, Images
-from .i18n import Locale, Locales, NullLocale
+from .i18n import Locale, Locales, NullLocale, LocaleMixin
 
 # Custom command framework
 from . import converters
 from .context import CommandContext, PartialContext
-#from .command import Command, Group, command, group
+from .command import Command, Group, command, group
 #from .cog import Cog, Category
 from .bot import Senko

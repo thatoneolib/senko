@@ -8,7 +8,7 @@ from discord.ext import commands
 import senko
 
 
-class Senko(commands.AutoShardedBot):
+class Senko(senko.LocaleMixin, commands.AutoShardedBot):
     r"""
     The central bot class.
 
@@ -58,7 +58,8 @@ class Senko(commands.AutoShardedBot):
             command_prefix=command_prefix,
             case_insensitive=True,
             chunk_guilds_at_startup=False,
-            guild_subscriptions=False
+            guild_subscriptions=False,
+            help_command=None
         )
 
         # Set general attributes.
@@ -71,6 +72,7 @@ class Senko(commands.AutoShardedBot):
 
         # Locales
         self.locales = senko.Locales(default=self.config.locale)
+        self.set_locale_source(self.locales)
 
         locale_dir = os.path.join(self.path, "data", "locales")
         for locale in self.config.locales:
@@ -145,6 +147,10 @@ class Senko(commands.AutoShardedBot):
         # TODO: Fetch these from guild settings.
         context._locale = self.locales.get(self.config.locale)
         context._default_prefix = self.config.prefix
+
+        # Ensure that commands are invoked using the locale.
+        invoker = context.invoked_with
+        context.command = self.get_command(invoker, locale=context.locale)
 
         return context
 
