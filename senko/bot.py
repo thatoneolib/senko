@@ -145,10 +145,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             or :class:`senko.Group`.
         """
         if not isinstance(command, (senko.Command, senko.Group)):
-            t = type(command).__name__
-            raise TypeError(
-                f"Expected command type to be senko.Command or senko.Group, not {t!r}!"
-            )
+            raise TypeError(f"Command {command!r} does not inherit from senko.Command or senko.Group!")
 
         super().add_command(command)
 
@@ -181,8 +178,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             The cog does not inherit from :class:`senko.Cog`.
         """
         if not isinstance(cog, senko.Cog):
-            t = type(cog).__name__
-            raise TypeError(f"Expected cog type to be senko.Cog, not {t!r}!")
+            raise TypeError(f"Cog {cog!r} does not inherit from senko.Cog!")
 
         super().add_cog(cog)
 
