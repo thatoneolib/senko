@@ -17,5 +17,5 @@ from .i18n import Locale, Locales, NullLocale, LocaleMixin
 from . import converters
 from .context import CommandContext, PartialContext
 from .command import Command, Group, command, group
-#from .cog import Cog, Category
+from .cog import Cog
 from .bot import Senko

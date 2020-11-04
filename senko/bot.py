@@ -22,7 +22,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         An aiohttp client session.
     loop: asyncio.AbstractEventLoop
         The event loop to use.
-    
+
     Attributes
     ----------
     db: asyncpg.pool.Pool
@@ -36,8 +36,9 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
     images: senko.Images
         The asset library for images.
     """
+
     def __init__(self, db, session, loop):
-        
+
         # Prepare and call the parent constructor.
         intents = discord.Intents(
             guilds=True,
@@ -59,7 +60,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             case_insensitive=True,
             chunk_guilds_at_startup=False,
             guild_subscriptions=False,
-            help_command=None
+            help_command=None,
         )
 
         # Set general attributes.
@@ -92,7 +93,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         # Extensions
         for ext in self.config.extensions:
             self.load_extension(f"cogs.{ext}")
-        
+
         self.log.info(f"Loaded {len(self.config.extensions)} extension(s).")
 
     # Properties
@@ -121,7 +122,34 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
 
     # Command methods
 
-    def add_command(self, command):       
+    def add_command(self, command):
+        """
+        Adds a :class:`senko.Command` or :class:`senko.Group` to the
+        internal list of commands.
+
+        Extends :meth:`discord.ext.commands.Bot.add_command` with type
+        checking and a default cooldown.
+
+        Parameters
+        ----------
+        command: Union[senko.Command, senko.Group]
+            The command to add.
+        
+        Raises
+        ------
+        discord.ext.commands.CommandRegistrationError
+            If the command or its alias is already registered by a
+            different command.
+        TypeError
+            If the command passed is not a subclass of :class:`senko.Command`
+            or :class:`senko.Group`.
+        """
+        if not isinstance(command, (senko.Command, senko.Group)):
+            t = type(command).__name__
+            raise TypeError(
+                f"Expected command type to be senko.Command or senko.Group, not {t!r}!"
+            )
+
         super().add_command(command)
 
         # Add a default cooldown of three seconds / user.
@@ -134,6 +162,67 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
                 cooldown = commands.Cooldown(1, 3, commands.BucketType.user)
                 command._buckets = commands.CooldownMapping(cooldown)
 
+    # Cog methods
+
+    def add_cog(self, cog):
+        """
+        Adds a cog to the bot.
+
+        Parameters
+        ----------
+        cog: senko.Cog
+            The cog to add to the bot.
+        
+        Raises
+        ------
+        discord.ext.commands.CommandError
+            An error occured during loading.
+        TypeError
+            The cog does not inherit from :class:`senko.Cog`.
+        """
+        if not isinstance(cog, senko.Cog):
+            t = type(cog).__name__
+            raise TypeError(f"Expected cog type to be senko.Cog, not {t!r}!")
+
+        super().add_cog(cog)
+
+        # TODO: Update cog name cache.
+
+    def remove_cog(self, name):
+        cog = self.get_cog(name)
+        super().remove_cog(name)
+
+        # TODO: Update cog name cache.
+
+    def get_cog(self, name, *, locale=None):
+        """
+        Get a cog by its name.
+
+        If a :class:`senko.Locale` is passed, this method will first
+        attempt to resolve the cog by its translated name, and then
+        fall back to checking cogs using their original names.
+
+        Parameters
+        ----------
+        name: str
+            The name of the cog to get.
+        locale: Optional[senko.Locale]
+            An optional locale to use to resolve the cog.
+        
+        Returns
+        -------
+        Optional[senko.Cog]
+            The requested cog or ``None`` if it was not found.
+        """
+        if name is None:
+            return None
+
+        if locale is not None:
+            # TODO: Attempt to resolve using cog name cache.
+            pass
+
+        return super().get_cog(name)    
+    
     # Context methods
 
     async def get_context(self, message, cls=senko.CommandContext):
@@ -141,7 +230,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         Get a command context for the given message.
 
         This method overrides :meth:`discord.ext.commands.Bot.get_context`.
-        
+
         Parameters
         ----------
         message: discord.Message
@@ -149,7 +238,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         cls
             The factory class to use to create the command context.
             Defaults to :class:`senko.CommandContext`.
-        
+
         Returns
         -------
         senko.CommandContext

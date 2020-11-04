@@ -19,5 +19,4 @@ This page contains lists the API references for all modules contained in
     context
     command
     converters
-..     cog
-..     category
+    cog

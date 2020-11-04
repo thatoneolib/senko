@@ -36,6 +36,8 @@ Modifications
 * The :func:`senko.Senko.run` method no longer takes a ``token`` parameter.
 * Added commands without a cooldown receive a cooldown of 3 seconds per user.
 * The 3 second cooldown is also applied to children of added command groups.
+* Added cogs must be of :class:`senko.Cog`, or a :exc:`TypeError` will be raised.
+* Added commands must be of :class:`senko.Command` or :class:`senko.Group`, or a :exc:`TypeError` will be raised.
 
 Reference
 *********

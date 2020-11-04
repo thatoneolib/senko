@@ -75,7 +75,7 @@ class CommandOverrides:
         ======================= ================================================
 
         For example, to look up the localized name of a given
-        command, you would use ``#command_<qualified_name>`_name``.
+        command, you would use ``#command_<qualified_name>_name``.
 
         Returns
         -------
