@@ -169,7 +169,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
 
         # Add cog name mappings for locale.
         for cog in list(self.cogs.values()):
-            self._add_cog_locale_mapping(cog, locale)
+            self._add_cog_names(cog, locale)
     
     def _remove_locale(self, locale):
         super()._remove_locale(locale)
