@@ -82,6 +82,9 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             except Exception as e:
                 self.log.exception(f"Could not load locale {locale!r}!", exc_info=e)
 
+        # Cog name mapping. Maps locale IDs to dicts of cog name translations.
+        self._cog_names = dict()
+
         # Emojis
         self.emotes = senko.Emojis()
         self.emotes.load_dir(os.path.join(self.path, "data", "emojis"))
@@ -161,6 +164,58 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
 
     # Cog methods
 
+    def _add_locale(self, locale):
+        super()._add_locale(locale)
+
+        # Add cog name mappings for locale.
+        for cog in list(self.cogs.values()):
+            self._add_cog_locale_mapping(cog, locale)
+    
+    def _remove_locale(self, locale):
+        super()._remove_locale(locale)
+
+        # Remove cog name mappings for locale.
+        self._cog_names.pop(locale.language, None)
+
+    def _add_cog_names(self, cog, locale):
+        """
+        Add the localization mappings for a cog.
+
+        Parameters
+        ----------
+        cog: senko.Cog
+            The cog for which to add name mappings.
+        locale: senko.Locale
+            The locale to get the name mappings from.
+        """
+        try:
+            self._cog_names[locale.language]
+        except KeyError:
+            self._cog_names[locale.language] = self._new_map()
+
+        key = locale(f"{cog.locale_id}_name")
+        self._cog_names[locale.language][key] = cog           
+
+    def _remove_cog_names(self, cog, locale):
+        """
+        Remove the localization mappings for a cog.
+
+        Parameters
+        ----------
+        cog: senko.Cog
+            The cog for which to remove the localization mappings.
+        locale: senko.Locale
+            The locale to remove the name mappings for.
+        """
+        try:
+            mapping = self._cog_names[locale.language]
+        except KeyError:
+            return
+        
+        for key, value in list(mapping.items()):
+            if value is cog:
+                mapping.pop(key)
+
     def add_cog(self, cog):
         """
         Adds a cog to the bot.
@@ -182,13 +237,36 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
 
         super().add_cog(cog)
 
-        # TODO: Update cog name cache.
+        # Update cog name cache.
+        if self._locale_source is not None:
+            for locale in self._locale_source.get_all():
+                self._add_cog_names(cog, locale)
 
     def remove_cog(self, name):
+        """
+        Remove a cog from the bot.
+
+        Has no effect if no cog with the given name is found.
+
+        Parameters
+        ----------
+        name: str
+            The name of the cog to remove.
+        
+        Returns
+        -------
+        Optional[senko.Cog]
+            The cog that was removed.
+        """
         cog = self.get_cog(name)
         super().remove_cog(name)
-
-        # TODO: Update cog name cache.
+            
+        # Update cog name cache.
+        if cog is not None and self._locale_source is not None:
+            for locale in self._locale_source.get_all():
+                self._remove_cog_names(cog, locale)
+        
+        return cog
 
     def get_cog(self, name, *, locale=None):
         """
@@ -197,6 +275,10 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         If a :class:`senko.Locale` is passed, this method will first
         attempt to resolve the cog by its translated name, and then
         fall back to checking cogs using their original names.
+
+        When the ``case_insensitive`` parameter of the bot is set to
+        ``True`` and a ``locale`` is provided the lookup is done case
+        insensitively.
 
         Parameters
         ----------
@@ -214,10 +296,10 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             return None
 
         if locale is not None:
-            # TODO: Attempt to resolve using cog name cache.
-            pass
-
-        return super().get_cog(name)    
+            mapping = self._cog_names.get(locale.language, dict())
+            return mapping.get(name, super().get_cog(name))
+        else:
+            return super().get_cog(name)
     
     # Context methods
 
