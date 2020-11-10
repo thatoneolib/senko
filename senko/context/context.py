@@ -194,3 +194,33 @@ class CommandContext(commands.Context):
             nonce=nonce,
             allowed_mentions=allowed_mentions,
         )
+
+    async def input(self, *args, **kwargs):
+        r"""
+        Create an :class:`~senko.utils.io.Input` and return its result.
+
+        Passes this context as the ``ctx`` parameter.
+
+        Parameters
+        ----------
+        \*args
+            Positional arguments to pass into :class:`~senko.utils.io.Input`.
+        \*\*kwargs
+            Keyword arguments to pass into :class:`~senko.utils.io.Input`.
+
+        Raises
+        ------
+        ~senko.utils.io.InputTimeoutError
+            Exception raised when the prompt times out.
+        ~senko.utils.io.InputConversionError
+            Exception raised when the conversion fails.
+        ~senko.utils.io.InputUnionConversionError
+            Exception raised when the conversion fails.
+
+        Returns
+        -------
+        Any
+            The converted user input or ``None`` if the input timed out.
+        """
+        prompt = senko.utils.io.Input(self, *args, **kwargs)
+        return await prompt.run()
