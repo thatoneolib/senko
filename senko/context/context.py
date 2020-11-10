@@ -166,14 +166,17 @@ class CommandContext(commands.Context):
         footer_text = None
         footer_icon = self.user.avatar_url
 
+        _ = self.locale
+        # Note: Format string for embed footers with user indicator.
+        # DEFAULT: {name} • {footer}
+        fmt = _("{name} • {footer}")
+
         if isinstance(footer_dict, str):
-            _ = self.locale
-            # Note: Format string for embed footers with user indicator.
-            # DEFAULT: {name} • {footer}
-            fmt = _("{name} • {footer}")
             footer_text = fmt.format(name=self.user, footer=footer_dict)
+        elif "text" in footer_dict:
+            footer_text = fmt.format(name=self.user, footer=footer_dict.get("text"))
         else:
-            footer_text = footer_dict.get("text", str(self.user))
+            footer_text = str(self.user)
 
         kwargs["footer"] = dict(text=footer_text, icon_url=footer_icon)
         kwargs["timestamp"] = datetime.now(tz=timezone.utc)
