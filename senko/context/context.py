@@ -256,3 +256,31 @@ class CommandContext(commands.Context):
         """
         prompt = senko.utils.io.Choice(self, *args, **kwargs)
         return await prompt.run()
+
+    async def yesno(self, *args, **kwargs):
+        r"""
+        Create a :class:`~senko.utils.io.YesNo` and return its result.
+
+        Passes this context as the ``ctx`` parameter.
+
+        Parameters
+        ----------
+        \*args
+            Positional arguments to pass into :class:`~senko.utils.io.YesNo`.
+        \*\*kwargs
+            Keyword arguments to pass into :class:`~senko.utils.io.YesNo`.
+
+        Raises
+        ------
+        ~senko.utils.io.InputTimeoutError
+            Exception raised when the prompt times out and ``raise_timeout`` is enabled.
+        ~senko.utils.io.ChoiceCancelledError
+            Exception raised when the choice is cancelled.
+
+        Returns
+        -------
+        Any
+            The selected choice or ``None`` if the prompt timed out.
+        """
+        prompt = senko.utils.io.YesNo(self, *args, **kwargs)
+        return await prompt.run()

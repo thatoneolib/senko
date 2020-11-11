@@ -139,6 +139,52 @@ as well as :meth:`senko.CommandContext.choice`.
 
 .. autofunction:: senko.utils.io.choice
 
+Yes / No Prompt
+***************
+
+The choice prompt is a :class:`~.Input` that prompts the context author to
+enter either yes or no, and returns an appropriate boolean value.
+
+For ease of use, shortcuts to create a choice prompt and receive the result
+exist under :func:`senko.utils.io.yesno` and :meth:`senko.CommandContext.yesno`.
+
+Example
+=======
+
+.. figure:: /_images/examples/utils/yesno.png
+    :alt: A yes / no prompt.
+
+    A yes / no prompt.
+
+.. code-block:: python3
+
+    prompt = senko.utils.io.YesNo(
+        ctx,
+        title=":question: Touch fluffy tail?",
+        description="Make your choice."
+    )
+
+    choice = await prompt.run()
+
+    if choice:
+        await ctx.send("*You touch the fluff.*")
+    else:
+        await ctx.send("*You resist the temptation.*")
+
+Class
+=====
+
+.. autoclass:: senko.utils.io.YesNo
+    :members:
+
+Shortcut
+========
+
+A shortcut function exists under :func:`senko.utils.io.yesno`,
+as well as :meth:`senko.CommandContext.yesno`.
+
+.. autofunction:: senko.utils.io.yesno
+
 Embed Builder
 *************
 

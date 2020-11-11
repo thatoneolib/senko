@@ -11,4 +11,4 @@ from .input import (
 )
 
 from .choice import choice, Choice, ChoiceCancelledError
-# from .common import yesno, YesNoPrompt
+from .yesno import yesno, YesNo
