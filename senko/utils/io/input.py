@@ -24,7 +24,7 @@ class InputError(Exception):
 
 class InputTimeoutError(InputError):
     """
-    Exception raised when a :class:`~senko.utils.io.Input` times out.
+    Exception raised when an :class:`~senko.utils.io.Input` times out.
 
     Inherits from :exc:`~.InputError`.
     """
