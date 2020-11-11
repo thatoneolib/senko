@@ -122,11 +122,14 @@ class Choice(Input):
         field_name = _("Options")
 
         # NOTE: Format for listed options in choice prompts.
-        # NOTE: Formatted as "`1` First Option".
+        # NOTE: Option is replaced with a number, description with
+        # NOTE: the option text.
         line_fmt = _("`{option}` {description}")
 
         # NOTE: Text for the option to cancel a choice prompt.
         cancel_text = _("Enter **{}** to cancel the selection.")
+
+        # NOTE: User input to cancel a choice prompt.
         cancel_input = _("cancel")
         cancel_text = cancel_text.format(cancel_input)
 
