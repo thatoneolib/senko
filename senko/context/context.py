@@ -220,7 +220,39 @@ class CommandContext(commands.Context):
         Returns
         -------
         Any
-            The converted user input or ``None`` if the input timed out.
+            The converted user input or ``None`` if the prompt timed out.
         """
         prompt = senko.utils.io.Input(self, *args, **kwargs)
+        return await prompt.run()
+
+    async def choice(self, *args, **kwargs):
+        r"""
+        Create a :class:`~senko.utils.io.Choice` and return its result.
+
+        Passes this context as the ``ctx`` parameter.
+
+        Parameters
+        ----------
+        \*args
+            Positional arguments to pass into :class:`~senko.utils.io.Choice`.
+        \*\*kwargs
+            Keyword arguments to pass into :class:`~senko.utils.io.Choice`.
+
+        Raises
+        ------
+        ~senko.utils.io.InputTimeoutError
+            Exception raised when the prompt times out.
+        ~senko.utils.io.InputConversionError
+            Exception raised when the conversion fails.
+        ~senko.utils.io.InputUnionConversionError
+            Exception raised when the conversion fails.
+        ~senko.utils.io.ChoiceCancelledError
+            Exception raised when the choice is cancelled.
+
+        Returns
+        -------
+        Any
+            The selected choice or ``None`` if the prompt timed out.
+        """
+        prompt = senko.utils.io.Choice(self, *args, **kwargs)
         return await prompt.run()
