@@ -100,7 +100,7 @@ class Input:
         Whether to raise when timing out. Defaults to ``False``.
     delete_after: Optional[bool]
         Whether to delete the prompt and user input upon completing.
-        Defaults to ``True``.
+        Defaults to ``False``.
     \*\*kwargs
         Keyword arguments to pass into :func:`senko.utils.io.build_embed` to
         build the input prompt embed from.
@@ -243,6 +243,12 @@ class Input:
                 self._user_message = message
                 self._result.set_result(result)
 
+    async def _send_message(self):
+        """
+        Sends the message for the prompt.
+        """
+        return await self.ctx.embed(**self.kwargs)
+
     async def run(self):
         """
         Run the prompt.
@@ -271,7 +277,7 @@ class Input:
 
         # Mark as started and send initial message.
         self._started = True
-        self._message = await self.ctx.embed(**self.kwargs)
+        self._message = await self._send_message()
 
         # Start listening to events.
         self.bot.add_listener(self._on_message, "on_message")
