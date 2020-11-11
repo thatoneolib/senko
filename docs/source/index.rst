@@ -3,6 +3,13 @@
 .. figure:: /_images/banner.png
     :align: center
 
+.. attention::
+
+    This version of Senko is still in early development. Until this notice is
+    removed, please consider everything you see here subject to change.
+    Breaking changes may be made without prior warning, and you should not
+    consider anything stable.
+
 Welcome to the documentation for Senko, an entertainment bot for Discord, themed
 around Sewayaki Kitsune no Senko-san. Senko is written in `Python 3.9`_  and
 uses the `discord.py`_ library. 
