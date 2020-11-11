@@ -168,6 +168,17 @@ async def choice(ctx, options, **kwargs):
     \*\*kwargs
         Keyword arguments to pass into :class:`~senko.utils.io.Choice`.
 
+    Raises
+    ------
+    InputTimeoutError
+        Exception raised when the prompt times out and ``raise_timeout`` is enabled.
+    InputConversionError
+        Exception raised when the conversion fails and ``raise_errors`` is enabled.
+    InputUnionConversionError
+        Exception raised when the conversion fails and ``raise_errors`` is enabled.
+    ChoiceCancelledError
+        Exception raised when the choice is cancelled.
+
     Returns
     -------
     Any

@@ -211,11 +211,11 @@ class CommandContext(commands.Context):
         Raises
         ------
         ~senko.utils.io.InputTimeoutError
-            Exception raised when the prompt times out.
+            Exception raised when the prompt times out and ``raise_timeout`` is enabled.
         ~senko.utils.io.InputConversionError
-            Exception raised when the conversion fails.
+            Exception raised when the conversion fails and ``raise_errors`` is enabled.
         ~senko.utils.io.InputUnionConversionError
-            Exception raised when the conversion fails.
+            Exception raised when the conversion fails and ``raise_errors`` is enabled.
 
         Returns
         -------
@@ -241,11 +241,11 @@ class CommandContext(commands.Context):
         Raises
         ------
         ~senko.utils.io.InputTimeoutError
-            Exception raised when the prompt times out.
+            Exception raised when the prompt times out and ``raise_timeout`` is enabled.
         ~senko.utils.io.InputConversionError
-            Exception raised when the conversion fails.
+            Exception raised when the conversion fails and ``raise_errors`` is enabled.
         ~senko.utils.io.InputUnionConversionError
-            Exception raised when the conversion fails.
+            Exception raised when the conversion fails and ``raise_errors`` is enabled.
         ~senko.utils.io.ChoiceCancelledError
             Exception raised when the choice is cancelled.
 

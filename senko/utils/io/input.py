@@ -258,11 +258,11 @@ class Input:
         InputStateError
             Exception raised when the prompt was already started.
         InputTimeoutError
-            Exception raised when the prompt times out.
+            Exception raised when the prompt times out and ``raise_timeout`` is enabled.
         InputConversionError
-            Exception raised when the conversion fails.
+            Exception raised when the conversion fails and ``raise_errors`` is enabled.
         InputUnionConversionError
-            Exception raised when the conversion fails.
+            Exception raised when the conversion fails and ``raise_errors`` is enabled.
 
         Returns
         -------
@@ -340,11 +340,11 @@ async def input(ctx, *args, **kwargs):
     Raises
     ------
     InputTimeoutError
-        Exception raised when the prompt times out.
+        Exception raised when the prompt times out and ``raise_timeout`` is enabled.
     InputConversionError
-        Exception raised when the conversion fails.
+        Exception raised when the conversion fails and ``raise_errors`` is enabled.
     InputUnionConversionError
-        Exception raised when the conversion fails.
+        Exception raised when the conversion fails and ``raise_errors`` is enabled.
 
     Returns
     -------
