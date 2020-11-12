@@ -85,7 +85,7 @@ class Emojis(AssetLibrary):
 
     def __init__(self, sentinel=None):
         super().__init__(sentinel=sentinel or SENTINEL)
-        self.logger = logging.getLogger("senko.assets.emojis")
+        self.logger = logging.getLogger("senko.emojis")
         self.formatter = EmojiFormatter(self)
 
     def load_file(self, file):

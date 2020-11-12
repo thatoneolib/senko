@@ -19,7 +19,7 @@ class Images(AssetLibrary):
 
     def __init__(self, sentinel=None):
         super().__init__(sentinel=sentinel)
-        self.log = logging.getLogger("senko.assets.images")
+        self.log = logging.getLogger("senko.images")
 
     def load_file(self, file):
         """
