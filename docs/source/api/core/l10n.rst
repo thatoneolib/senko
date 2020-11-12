@@ -1,22 +1,22 @@
-.. _core_i18n:
+.. _core_l10n:
 
-I18n
+l10n
 ####
 
 Senko's translation framework is based on :py:mod:`gettext` and supports
 multiple translations to be used simultaneously through the
 :class:`~senko.Locales` class.
 
-In addition to allowing regular messages to be localized, the i18n system
+In addition to allowing regular messages to be localized, the l10n system
 further provides a :class:`~senko.LocaleMixin` that plays an important role
 in making command invocation be possible using localized command names.
 
 For a detailed explaination on how this was made possible, please refer to
-:ref:`core_i18n_locale_mixin`.
+:ref:`core_l10n_locale_mixin`.
 
 .. note::
 
-    This section documents the internal API of the ``i18n`` framework. If you
+    This section documents the internal API of the ``l10n`` framework. If you
     are looking for a guide on how to translate Senko, please refer to the
     :ref:`localization guide <localization>` instead.
 
@@ -50,7 +50,7 @@ as :class:`~senko.Locale`.
 .. autoclass:: senko.NullLocale
     :members: gettext, ngettext, __call__
     
-.. _core_i18n_locale_mixin:
+.. _core_l10n_locale_mixin:
 
 Locale Mixin
 ************

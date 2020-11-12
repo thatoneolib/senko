@@ -13,7 +13,7 @@ This page contains lists the API references for all modules contained in
 
     bot
     database
-    i18n
+    l10n
     assets
     colour
     context

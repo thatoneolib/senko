@@ -94,7 +94,7 @@ Creating Tests
 
 New test files must be added to the ``tests`` directory in the root directory
 of the project and be prefixed with ``test_`` to be discoverable by pytest, e.g.
-``test_i18n.py``. For a complete guide on how to create tests using pytest,
+``test_l10n.py``. For a complete guide on how to create tests using pytest,
 please refer to the 
 `pytest documentation <https://docs.pytest.org/en/stable/getting-started.html#create-your-first-test>`_.
 

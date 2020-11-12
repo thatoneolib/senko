@@ -103,7 +103,7 @@ class LocaleMixin:
         # Add the new keys one by one and check for duplicates.
         for key, value in mapping.items():
             if key in locale_mapping:
-                logger = logging.getLogger("senko.i18n")
+                logger = logging.getLogger("senko.l10n")
                 original = mapping[key]
                 conflict = value
 

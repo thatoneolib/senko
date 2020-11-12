@@ -11,7 +11,7 @@ from . import utils
 
 # Assets
 from .assets import Emojis, Images
-from .i18n import Locale, Locales, NullLocale, LocaleMixin
+from .l10n import Locale, Locales, NullLocale, LocaleMixin
 
 # Custom command framework
 from . import converters
