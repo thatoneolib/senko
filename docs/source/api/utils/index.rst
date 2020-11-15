@@ -13,3 +13,4 @@ directory.
     caching
     io
     dict
+    db
