@@ -68,6 +68,8 @@ class GuildSettings(object):
         """
         Synchronize the model with the database.
 
+        Updates the fields of this object to be in sync with the database.
+
         Has no effect if the associated database entry has been deleted.
 
         Parameters

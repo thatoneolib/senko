@@ -3,17 +3,20 @@
 Settings
 ########
 
-The settings cog provides access to guild and user settings and allows them to
-be modified through the use of database models.
+The settings cog maintains and provides access to settings. It provides an
+interface to retrieve settings objects through which you can access and modify
+settings for guilds and users.
 
 Usage
 *****
 
-You can access the loaded settings cog either through :attr:`.Senko.settings`
-or by calling :meth:`.Senko.get_cog` with its qualified name.
+The loaded settings cog can be accessed through :attr:`.Senko.settings` or by
+calling :meth:`.Senko.get_cog` with its qualified name.
 
 Guild Settings
 ==============
+
+You can access the settings for a guild as follows:
 
 .. code-block:: python3
 
@@ -37,7 +40,7 @@ Cog
 ***
 
 The qualified name of the :class:`~cogs.settings.SettingsCog` is ``settings``.
-When loaded, you can access this cog through :attr:`.Senko.settings`.
+A shortcut to the loaded cog exists under :attr:`.Senko.settings`.
 
 .. autoclass:: cogs.settings.SettingsCog
     :members:
@@ -45,14 +48,14 @@ When loaded, you can access this cog through :attr:`.Senko.settings`.
 Models
 ******
 
-To make working with them easier, settings are provided as models. You receive
-an instance of these when calling the appropriate method of the settings cog.
+Guild and user settings are provided as models. Instances of these models are
+returned by the corresponding methods of the settings cog.
 
 Guild Settings
 ==============
 
-The guild settings database model represents an entry in the ``guild_settings``
-table in the database.
+The model for guild settings represents a single row in the ``guild_settings``
+table. Instances of this class are available through :meth:`.SettingsCog.get_guild_settings`.
 
 .. autoclass:: cogs.settings.GuildSettings
     :members:
@@ -65,7 +68,8 @@ User Settings
 Exceptions
 **********
 
-The following exceptions may be raised by :class:`~cogs.settings.SettingsCog`:
+When modifying the settings for a guild or user the following exceptions may
+be raised:
 
 .. autoexception:: cogs.settings.UnknownSetting
 
