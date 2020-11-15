@@ -23,8 +23,7 @@ Modifications
           reactions=True,
       )
 
-* The ``command_prefix`` parameter is set to the :data:`config.prefix` or a
-  mention.
+* The ``command_prefix`` parameter is set to :func:`senko.command_prefix`.
 * The ``case_insensitive`` parameter is set to ``True``.
 * The ``chunk_at_startup`` parameter is set to ``False``.
 * The ``guild_subscriptions`` parameter is set to ``False``.
@@ -41,6 +40,8 @@ Modifications
 
 Reference
 *********
+
+.. autofunction:: senko.command_prefix
 
 .. autoclass:: senko.Senko
     :members:

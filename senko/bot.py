@@ -8,6 +8,27 @@ from discord.ext import commands
 import senko
 
 
+async def command_prefix(bot, msg):
+    """
+    A callable command prefix.
+
+    If possible, uses the :class:`~cogs.settings.SettingsCog` to
+    get the command prefix for guilds.
+
+    Allows the bot to be mentioned instead of using the prefix.
+    """
+    prefix = None
+    cog = bot.get_cog("settings")
+    if msg.guild and cog:
+        settings = await cog.get_guild_settings(msg.guild)
+        prefix = settings.prefix
+
+    if prefix is None:
+        prefix = bot.config.prefix
+
+    return commands.when_mentioned_or(prefix)(bot, msg)
+
+
 class Senko(senko.LocaleMixin, commands.AutoShardedBot):
     r"""
     The central bot class.
@@ -50,7 +71,6 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         )
 
         member_cache_flags = discord.MemberCacheFlags.from_intents(intents)
-        command_prefix = commands.when_mentioned_or(self.config.prefix)
 
         super().__init__(
             loop=loop,
@@ -123,6 +143,13 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         """
         return __import__("config")
 
+    @property
+    def settings(self):
+        """
+        Optional[~cogs.settings.SettingsCog]: The settings cog when loaded.
+        """
+        return self.get_cog("settings")
+
     # Command methods
 
     def add_command(self, command):
@@ -137,7 +164,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         ----------
         command: Union[senko.Command, senko.Group]
             The command to add.
-        
+
         Raises
         ------
         discord.ext.commands.CommandRegistrationError
@@ -148,7 +175,9 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             or :class:`senko.Group`.
         """
         if not isinstance(command, (senko.Command, senko.Group)):
-            raise TypeError(f"Command {command!r} does not inherit from senko.Command or senko.Group!")
+            raise TypeError(
+                f"Command {command!r} does not inherit from senko.Command or senko.Group!"
+            )
 
         super().add_command(command)
 
@@ -170,7 +199,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         # Add cog name mappings for locale.
         for cog in list(self.cogs.values()):
             self._add_cog_names(cog, locale)
-    
+
     def _remove_locale(self, locale):
         super()._remove_locale(locale)
 
@@ -194,7 +223,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             self._cog_names[locale.language] = self._new_map()
 
         key = locale(f"{cog.locale_id}_name")
-        self._cog_names[locale.language][key] = cog           
+        self._cog_names[locale.language][key] = cog
 
     def _remove_cog_names(self, cog, locale):
         """
@@ -211,7 +240,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             mapping = self._cog_names[locale.language]
         except KeyError:
             return
-        
+
         for key, value in list(mapping.items()):
             if value is cog:
                 mapping.pop(key)
@@ -224,7 +253,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         ----------
         cog: senko.Cog
             The cog to add to the bot.
-        
+
         Raises
         ------
         discord.ext.commands.CommandError
@@ -252,7 +281,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         ----------
         name: str
             The name of the cog to remove.
-        
+
         Returns
         -------
         Optional[senko.Cog]
@@ -260,12 +289,12 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         """
         cog = self.get_cog(name)
         super().remove_cog(name)
-            
+
         # Update cog name cache.
         if cog is not None and self._locale_source is not None:
             for locale in self._locale_source.get_all():
                 self._remove_cog_names(cog, locale)
-        
+
         return cog
 
     def get_cog(self, name, *, locale=None):
@@ -286,7 +315,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             The name of the cog to get.
         locale: Optional[senko.Locale]
             An optional locale to use to resolve the cog.
-        
+
         Returns
         -------
         Optional[senko.Cog]
@@ -300,7 +329,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             return mapping.get(name, super().get_cog(name))
         else:
             return super().get_cog(name)
-    
+
     # Context methods
 
     async def get_context(self, message, cls=senko.CommandContext):
@@ -326,9 +355,23 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         context = await super().get_context(message, cls=cls)
 
         # Set custom attributes.
-        # TODO: Fetch these from guild settings.
-        context._locale = self.locales.get(self.config.locale)
-        context._default_prefix = self.config.prefix
+        prefix = self.config.prefix
+        locale_id = self.config.locale
+
+        if message.channel.guild:
+            try:
+                cog = self.cogs["settings"]
+            except KeyError:
+                pass
+            else:
+                settings = await cog.get_guild_settings(message.channel.guild)
+                prefix = settings.prefix
+                locale_id = settings.locale
+
+        locale = self.locales.get(locale_id)
+
+        context._default_prefix = prefix
+        context._locale = locale
 
         # Ensure that commands are invoked using the locale.
         invoker = context.invoked_with
@@ -356,9 +399,20 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
             A partial context. The type of this may change
             depending on the ``cls`` argument.
         """
-        # TODO: Fetch these from guild settings.
         prefix = self.config.prefix
-        locale = self.locales.get(self.config.locale)
+        locale_id = self.config.locale
+
+        if channel.guild:
+            try:
+                cog = self.cogs["settings"]
+            except KeyError:
+                pass
+            else:
+                settings = await cog.get_guild_settings(channel.guild)
+                prefix = settings.prefix
+                locale_id = settings.locale
+
+        locale = self.locales.get(locale_id)
 
         return cls(self, user, channel, locale, prefix)
 
