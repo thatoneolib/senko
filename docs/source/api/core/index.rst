@@ -3,9 +3,8 @@
 Core Reference
 ##############
 
-This page lists the API references for all modules contained in ``senko.*``,
-with the exception of ``senko.utils``, which can instead be found
-:ref:`here <utils_index>`.
+This page indexes the documentation pages for all modules found in the ``senko``
+directory.
 
 .. toctree::
     :maxdepth: 2
