@@ -3,17 +3,17 @@
 IO Utilities
 ############
 
-The ``senko.utils.io`` subpackage provides various utilities that simplify the
+The ``utils.io`` subpackage provides various utilities that simplify the
 common use case of creating prompts or sending more advanced messages to users.
 
 Input Prompt
 ************
 
-Using the :class:`~senko.utils.io.Input` prompt you can create simple prompts
+Using the :class:`~utils.io.Input` prompt you can create simple prompts
 for additional user input in commands. The prompt supports converters just like
 regular commands, so it is easy to use.
 
-For ease of use, you can use :func:`senko.utils.io.input` or 
+For ease of use, you can use :func:`utils.io.input` or 
 :meth:`senko.CommandContext.input` to create an input prompt and
 receive its result.
 
@@ -27,7 +27,7 @@ Example
 
 .. code-block:: python3
 
-    prompt = senko.utils.io.Input(
+    prompt = utils.io.Input(
         ctx,
         title=":1234: Enter a Number",
         description="Enter a number.",
@@ -47,7 +47,7 @@ Example
 Class
 =====
 
-.. autoclass:: senko.utils.io.Input
+.. autoclass:: utils.io.Input
     :members:
 
 Exceptions
@@ -56,22 +56,22 @@ Exceptions
 When ``raise_errors`` or ``raise_timeout`` are enabled, the :meth:`~.Input.run`
 method may raise the following exceptions (except for :exc:`~.InputError`).
 
-.. autoexception:: senko.utils.io.InputError
+.. autoexception:: utils.io.InputError
 
-.. autoexception:: senko.utils.io.InputTimeoutError
+.. autoexception:: utils.io.InputTimeoutError
 
-.. autoexception:: senko.utils.io.InputStateError
+.. autoexception:: utils.io.InputStateError
 
-.. autoexception:: senko.utils.io.InputConversionError
+.. autoexception:: utils.io.InputConversionError
     :members:
 
-.. autoexception:: senko.utils.io.InputUnionConversionError
+.. autoexception:: utils.io.InputUnionConversionError
     :members:
 
 Shortcut
 ========
 
-.. autofunction:: senko.utils.io.input
+.. autofunction:: utils.io.input
 
 Choice Prompt
 *************
@@ -80,7 +80,7 @@ The choice prompt is a :class:`~.Input` that takes a dictionary or list of
 options, prompts the context author to choose from them and returns the choice.
 
 For ease of use, shortcuts to create a choice prompt and receive the result
-exist under :func:`senko.utils.io.prompt` and :meth:`senko.CommandContext.choice`.
+exist under :func:`utils.io.prompt` and :meth:`senko.CommandContext.choice`.
 
 Example
 =======
@@ -101,7 +101,7 @@ Example
     # Alternatively, you could use a list of tuples.
     # options = [(":apple: Apple", "apple"), ...]
 
-    prompt = senko.utils.io.Choice(
+    prompt = utils.io.Choice(
         ctx,
         options=options,
         allow_cancel=True,
@@ -123,21 +123,21 @@ When the option is chosen, the prompt would return 1.
 Class
 =====
 
-.. autoclass:: senko.utils.io.Choice
+.. autoclass:: utils.io.Choice
     :members:
     
 Exceptions
 ==========
 
-.. autoexception:: senko.utils.io.ChoiceCancelledError
+.. autoexception:: utils.io.ChoiceCancelledError
 
 Shortcut
 ========
 
-A shortcut function exists under :func:`senko.utils.io.choice`,
+A shortcut function exists under :func:`utils.io.choice`,
 as well as :meth:`senko.CommandContext.choice`.
 
-.. autofunction:: senko.utils.io.choice
+.. autofunction:: utils.io.choice
 
 Yes / No Prompt
 ***************
@@ -146,7 +146,7 @@ The choice prompt is a :class:`~.Input` that prompts the context author to
 enter either yes or no, and returns an appropriate boolean value.
 
 For ease of use, shortcuts to create a choice prompt and receive the result
-exist under :func:`senko.utils.io.yesno` and :meth:`senko.CommandContext.yesno`.
+exist under :func:`utils.io.yesno` and :meth:`senko.CommandContext.yesno`.
 
 Example
 =======
@@ -158,7 +158,7 @@ Example
 
 .. code-block:: python3
 
-    prompt = senko.utils.io.YesNo(
+    prompt = utils.io.YesNo(
         ctx,
         title=":question: Touch fluffy tail?",
         description="Make your choice."
@@ -174,16 +174,16 @@ Example
 Class
 =====
 
-.. autoclass:: senko.utils.io.YesNo
+.. autoclass:: utils.io.YesNo
     :members:
 
 Shortcut
 ========
 
-A shortcut function exists under :func:`senko.utils.io.yesno`,
+A shortcut function exists under :func:`utils.io.yesno`,
 as well as :meth:`senko.CommandContext.yesno`.
 
-.. autofunction:: senko.utils.io.yesno
+.. autofunction:: utils.io.yesno
 
 Embed Builder
 *************
@@ -197,7 +197,7 @@ through a single function call rather than having to build them manually.
     async def avatar(self, ctx, *, user: discord.User):
         """Get someone's avatar."""
 
-        embed = senko.utils.io.build_embed(
+        embed = utils.io.build_embed(
             title=f"{user.display_name}'s Avatar",
             description="What a magnificent being you are!",
             fields=[dict(name="URL", value=user.avatar_url)],
@@ -213,4 +213,4 @@ A shortcut for this function exists in :meth:`senko.CommandContext.embed`.
 Reference
 =========
 
-.. autofunction:: senko.utils.io.build_embed
+.. autofunction:: utils.io.build_embed

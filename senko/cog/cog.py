@@ -58,9 +58,7 @@ class Cog(commands.Cog, metaclass=CogOverrides):
         traversed = set()
         while cog.category is not None:
             if cog in traversed:
-                raise RuntimeError(
-                    f"Circular category reference for cog {self!r}: {cog!r}!"
-                )
+                raise RuntimeError(f"Circular category reference for cog {self!r}: {cog!r}!")
 
             traversed.add(cog)
             cog = cog.category

@@ -2,7 +2,7 @@ import time
 import asyncio
 import pytest
 
-from senko.utils import caching
+from utils import caching
 
 # helpers
 

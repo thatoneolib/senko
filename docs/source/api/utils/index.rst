@@ -3,8 +3,8 @@
 Utility Reference
 #################
 
-This page contains lists the API references for all modules contained in
-``senko.utils``.
+This page indexes the documentation pages for all modules found in the ``utils``
+directory.
 
 .. toctree::
     :maxdepth: 2

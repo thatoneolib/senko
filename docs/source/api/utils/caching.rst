@@ -22,10 +22,10 @@ normal and coroutine functions.
     `cachetools <https://github.com/tkem/cachetools>`_, an excellent library for
     performant caching utilities.
 
-.. autofunction:: senko.utils.caching.hash_key
-.. autofunction:: senko.utils.caching.cached_function
-.. autofunction:: senko.utils.caching.cached_method
-.. autofunction:: senko.utils.caching.cached_property
+.. autofunction:: utils.caching.hash_key
+.. autofunction:: utils.caching.cached_function
+.. autofunction:: utils.caching.cached_method
+.. autofunction:: utils.caching.cached_property
 
 Cache Implementations
 *********************
@@ -37,15 +37,15 @@ Cache
 
 The basic cache class from which all other cache implementations inherit.
 
-.. autoclass:: senko.utils.caching.Cache
+.. autoclass:: utils.caching.Cache
     :members:
 
 LRUCache
 ========
 
-.. autoclass:: senko.utils.caching.LRUCache
+.. autoclass:: utils.caching.LRUCache
 
 TTLCache
 ========
 
-.. autoclass:: senko.utils.caching.TTLCache
+.. autoclass:: utils.caching.TTLCache

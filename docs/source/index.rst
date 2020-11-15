@@ -39,6 +39,7 @@ create the assets used by Senko.
     :caption: Concept
 
     concept/overview
+    concept/architecture
     concept/features/index
     concept/assets/index
 

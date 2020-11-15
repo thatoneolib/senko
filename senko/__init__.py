@@ -7,7 +7,6 @@ __version__     = "1.0.0"
 # Utilities
 from .db import init_db
 from .colour import Colour
-from . import utils
 
 # Assets
 from .assets import Emojis, Images

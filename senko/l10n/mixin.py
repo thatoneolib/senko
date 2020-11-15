@@ -1,7 +1,7 @@
 import logging
 
 import senko
-from senko.utils import CaseInsensitiveDict
+from utils import CaseInsensitiveDict
 
 
 class LocaleMixin:

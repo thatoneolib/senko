@@ -1,4 +1,4 @@
-from senko.utils import CaseInsensitiveDict
+from utils import CaseInsensitiveDict
 
 def test_init():
     d = CaseInsensitiveDict(A=1)

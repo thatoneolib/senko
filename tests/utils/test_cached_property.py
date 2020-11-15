@@ -1,7 +1,7 @@
 # pylint: disable=global-variable-undefined
 import time
 import pytest
-from senko.utils.caching import cached_property
+from utils.caching import cached_property
 
 
 def test_cached_property():

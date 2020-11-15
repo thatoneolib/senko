@@ -3,7 +3,7 @@ import time
 import asyncio
 import pytest
 
-from senko.utils import caching
+from utils import caching
 
 def setup_function(function):
     global _value

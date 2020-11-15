@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import babel
 import discord
 import senko
+import utils
 from discord.ext import commands
 
 
@@ -145,7 +146,7 @@ class CommandContext(commands.Context):
         allowed_mentions: Optional[discord.AllowedMentions]
             Controls the mentions being processed in this message.
         \*\*kwargs
-            Keyword arguments to pass into :meth:`senko.utils.io.build_embed`.
+            Keyword arguments to pass into :meth:`utils.io.build_embed`.
 
         Returns
         -------
@@ -181,7 +182,7 @@ class CommandContext(commands.Context):
         kwargs["footer"] = dict(text=footer_text, icon_url=footer_icon)
         kwargs["timestamp"] = datetime.now(tz=timezone.utc)
 
-        embed = senko.utils.io.build_embed(**kwargs)
+        embed = utils.io.build_embed(**kwargs)
 
         # Send and return the message.
         return await self.send(
@@ -197,24 +198,24 @@ class CommandContext(commands.Context):
 
     async def input(self, *args, **kwargs):
         r"""
-        Create an :class:`~senko.utils.io.Input` and return its result.
+        Create an :class:`~utils.io.Input` and return its result.
 
         Passes this context as the ``ctx`` parameter.
 
         Parameters
         ----------
         \*args
-            Positional arguments to pass into :class:`~senko.utils.io.Input`.
+            Positional arguments to pass into :class:`~utils.io.Input`.
         \*\*kwargs
-            Keyword arguments to pass into :class:`~senko.utils.io.Input`.
+            Keyword arguments to pass into :class:`~utils.io.Input`.
 
         Raises
         ------
-        ~senko.utils.io.InputTimeoutError
+        ~utils.io.InputTimeoutError
             Exception raised when the prompt times out and ``raise_timeout`` is enabled.
-        ~senko.utils.io.InputConversionError
+        ~utils.io.InputConversionError
             Exception raised when the conversion fails and ``raise_errors`` is enabled.
-        ~senko.utils.io.InputUnionConversionError
+        ~utils.io.InputUnionConversionError
             Exception raised when the conversion fails and ``raise_errors`` is enabled.
 
         Returns
@@ -222,31 +223,31 @@ class CommandContext(commands.Context):
         Any
             The converted user input or ``None`` if the prompt timed out.
         """
-        prompt = senko.utils.io.Input(self, *args, **kwargs)
+        prompt = utils.io.Input(self, *args, **kwargs)
         return await prompt.run()
 
     async def choice(self, *args, **kwargs):
         r"""
-        Create a :class:`~senko.utils.io.Choice` and return its result.
+        Create a :class:`~utils.io.Choice` and return its result.
 
         Passes this context as the ``ctx`` parameter.
 
         Parameters
         ----------
         \*args
-            Positional arguments to pass into :class:`~senko.utils.io.Choice`.
+            Positional arguments to pass into :class:`~utils.io.Choice`.
         \*\*kwargs
-            Keyword arguments to pass into :class:`~senko.utils.io.Choice`.
+            Keyword arguments to pass into :class:`~utils.io.Choice`.
 
         Raises
         ------
-        ~senko.utils.io.InputTimeoutError
+        ~utils.io.InputTimeoutError
             Exception raised when the prompt times out and ``raise_timeout`` is enabled.
-        ~senko.utils.io.InputConversionError
+        ~utils.io.InputConversionError
             Exception raised when the conversion fails and ``raise_errors`` is enabled.
-        ~senko.utils.io.InputUnionConversionError
+        ~utils.io.InputUnionConversionError
             Exception raised when the conversion fails and ``raise_errors`` is enabled.
-        ~senko.utils.io.ChoiceCancelledError
+        ~utils.io.ChoiceCancelledError
             Exception raised when the choice is cancelled.
 
         Returns
@@ -254,27 +255,27 @@ class CommandContext(commands.Context):
         Any
             The selected choice or ``None`` if the prompt timed out.
         """
-        prompt = senko.utils.io.Choice(self, *args, **kwargs)
+        prompt = utils.io.Choice(self, *args, **kwargs)
         return await prompt.run()
 
     async def yesno(self, *args, **kwargs):
         r"""
-        Create a :class:`~senko.utils.io.YesNo` and return its result.
+        Create a :class:`~utils.io.YesNo` and return its result.
 
         Passes this context as the ``ctx`` parameter.
 
         Parameters
         ----------
         \*args
-            Positional arguments to pass into :class:`~senko.utils.io.YesNo`.
+            Positional arguments to pass into :class:`~utils.io.YesNo`.
         \*\*kwargs
-            Keyword arguments to pass into :class:`~senko.utils.io.YesNo`.
+            Keyword arguments to pass into :class:`~utils.io.YesNo`.
 
         Raises
         ------
-        ~senko.utils.io.InputTimeoutError
+        ~utils.io.InputTimeoutError
             Exception raised when the prompt times out and ``raise_timeout`` is enabled.
-        ~senko.utils.io.ChoiceCancelledError
+        ~utils.io.ChoiceCancelledError
             Exception raised when the choice is cancelled.
 
         Returns
@@ -282,5 +283,5 @@ class CommandContext(commands.Context):
         Any
             The selected choice or ``None`` if the prompt timed out.
         """
-        prompt = senko.utils.io.YesNo(self, *args, **kwargs)
+        prompt = utils.io.YesNo(self, *args, **kwargs)
         return await prompt.run()
