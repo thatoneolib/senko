@@ -26,29 +26,32 @@ Path                        Description
 Reloading
 *********
 
-We differentiate between two types of reloading used to reload modules found in
-the ``cogs`` directory and the ``utils`` directory respectively.
+We can differentiate between two types of reloading used for the ``cogs`` and
+``utils`` directory.
 
-Cogs found in ``utils`` can be reloaded by calling the :meth:`~senko.Senko.reload_extension`
-method of the bot using the extension that corresponds to the cog.
+Cogs located in ``cogs`` can be reloaded using :meth:`.Senko.reload_extension`
+with the name of the extension that corresponds to the cog.
 
-Utilities found in ``utils`` can instead be reloaded by calling :py:meth:`importlib.reload`
-and passing the ``utils`` module. After reloading utilities, cogs that depend on
-them should be reloaded as well to apply the changes. Please also note that
-reloading ``utils`` does **not** update existing instances and will cause issues
-with type comparisons between reloaded types.
+Utilities from ``utils`` must instead be reloaded using :py:meth:`importlib.reload`.
+After reloading utilities, cogs that depend on them should also be reloaded.
+Please note that reloading ``utils`` does **not** update existing instances
+of classes and may cause issues when comparing reloaded types.
 
 Caveats
 =======
 
-One major caveat of reloading ``utils`` is that ``from``-imports
-(e.g. ``from .xyz import XYZ``) in subpackages will not be reloaded and must
-instead be manually reloaded.
+One major caveat of reloading ``utils`` is that ``from``-imports in subpackages
+(e.g. ``from .xyz import XYZ``) will not be reloaded. These must instead be
+reloaded manually.
 
-So, instead of being able to simply call ``importlib.reload(utils)``, for some
-subpackages, such as ``io`` we must instead use:
+Thus instead of just calling ``importlib.reload(utils)`` we must repeat the
+call for subpackages that use ``from``-imports internally´. This is the case
+for the ``utils.io`` subpackage.
 
 .. code-block:: python3
+
+    # Reloads for packages that use from-imports must
+    # be split up for the corresponding subpackages.
 
     importlib.reload(utils)
     importlib.reload(utils.io)
