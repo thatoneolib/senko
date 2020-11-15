@@ -1,5 +1,7 @@
 import pytest
 
+# The database fixture uses senko.db_init, so we do not
+# explicitly import it here.
 
 @pytest.fixture
 @pytest.mark.asyncio
