@@ -20,9 +20,10 @@ documented here.
 Sections
 ********
 
-=============== ================================================================
-Section         Description
-=============== ================================================================
-:ref:`features` Feature documentation with links to respective API reference.
-:ref:`assets`   Documentation of used assets such as fonts.
-=============== ================================================================
+=================== ============================================================
+Section             Description
+=================== ============================================================
+:ref:`architecture` Documentation of the bot's architecture.
+:ref:`features`     Documentation of features with links to API references.
+:ref:`assets`       Documentation of used assets such as fonts.
+=================== ============================================================
