@@ -122,18 +122,14 @@ class GuildSettings(object):
                 if len(value) == 0:
                     raise BadSetting("Guild prefix must not be empty!")
                 elif len(value) > 10:
-                    raise BadSetting(
-                        "Guild prefix must be at most 10 characters long!"
-                    )
+                    raise BadSetting("Guild prefix must be at most 10 characters long!")
 
             # TODO: Validate timezone.
 
         # Build the database query.
         skeleton = 'UPDATE "guild_settings"SET {assignments} WHERE "guild"=$1;'
         enumerated = list(enumerate(options.items(), 2))
-        assignments = ", ".join(
-            f'"{pair[0]}"=${pos}' for pos, pair in enumerated
-        )
+        assignments = ", ".join(f'"{pair[0]}"=${pos}' for pos, pair in enumerated)
         values = [pair[1] for _, pair in enumerated]
         query = skeleton.format(assignments=assignments)
 
