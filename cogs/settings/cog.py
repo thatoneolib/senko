@@ -17,40 +17,82 @@ class SettingsCog(senko.Cog, name="settings"):
 
     @senko.Cog.listener()
     async def on_guild_join(self, guild):
-        """
-        When joining a guild for the first time, creates a new default
-        configuration for the guild. If a configuration already exists
-        for the joined guild, the ``last_joined`` value is updated to
-        the current time.
-        """
-        await self.new_guild_settings(guild)
+        # When joining a guild for the first time create a new default
+        # configuration. If a configuration already exists, update the
+        # last_joined timestamp instead.
+        await self._init_guild_settings(guild)
 
-    async def new_guild_settings(self, guild, connection=None):
+    def _build_guild_settings(self, guild, row):
         """
-        Create default settings for a guild.
-
-        Updates ``last_joined`` to the current time when
-        settings already exist for the given guild.
+        Build the :class:`~.GuildSettings` for a guild and database record.
 
         Parameters
         ----------
         guild: discord.Guild
-            The guild to create new settings for.
-        connection: Optional[asyncpg.connection.Connection]
-            A database connection to use.
+            The guild to generate the settings object for.
+        row: asyncpg.Record
+            The database record of the guild's settings.
+
+        Returns
+        -------
+        ~.GuildSettings
+            The guild settings object.
         """
+        return GuildSettings(
+            self.bot,
+            guild,
+            prefix=row["prefix"],
+            locale=row["locale"],
+            timezone=row["timezone"],
+            first_joined=row["first_joined"],
+            last_joined=row["last_joined"],
+        )
+
+    async def _init_guild_settings(self, guild, connection=None):
+        """
+        Initialize the settings for a guild.
+
+        If settings already exist for the given guild,
+        the ``last_joined`` value is updated instead.
+
+        Parameters
+        ----------
+        guild: discord.Guild
+            The guild for which to initialize settings.
+        connection: Optional[asyncpg.connection.Connection]
+            An optional database connection to use.
+        
+        Returns
+        -------
+        ~.GuildSettings
+            The new or updated guild settings.
+        """
+
         query = """
         INSERT INTO "guild_settings" ("guild") VALUES ($1)
         ON CONFLICT ("guild") DO UPDATE
-        SET "last_joined"=(NOW() AT TIME ZONE 'UTC');
+        SET "last_joined"=(NOW() AT TIME ZONE 'UTC')
+        RETURNING *;
         """
-
         async with utils.db.maybe_acquire(self.bot.db, connection) as conn:
-            await conn.execute(query, guild.id)
+            row = await conn.fetchrow(query, guild.id)
 
-            # Sync cached settings.
+            # Update cached settings...
             if guild.id in self.guild_cache:
-                await self.guild_cache[guild.id].sync()
+                settings = self.guild_cache[guild.id]
+                settings._update(
+                    prefix=row["prefix"],
+                    locale=row["locale"],
+                    timezone=row["timezone"],
+                    last_joined=row["last_joined"],
+                )
+
+            # ... or cache returned settings.
+            else:
+                settings = self._build_guild_settings(guild, row)
+                self.guild_cache[guild.id] = settings
+            
+            return settings
 
     async def get_guild_settings(self, guild, connection=None):
         """
@@ -74,25 +116,14 @@ class SettingsCog(senko.Cog, name="settings"):
         if guild.id in self.guild_cache:
             return self.guild_cache[guild.id]
 
-        # Fetch the guild settings.
+        # Fetch guild settings.
         query = 'SELECT * FROM "guild_settings" WHERE "guild"=$1;'
         async with utils.db.maybe_acquire(self.bot.db, connection) as conn:
             row = await conn.fetchrow(query, guild.id)
 
             if row is None:
-                await self.new_guild_settings(guild, connection=conn)
-                row = await conn.fetchrow(query, guild.id)
+                return await self._init_guild_settings(guild, connection=conn)
 
-            settings = GuildSettings(
-                self.bot,
-                guild,
-                prefix=row["prefix"],
-                locale=row["locale"],
-                timezone=row["timezone"],
-                first_joined=row["first_joined"],
-                last_joined=row["last_joined"],
-            )
-
-        # Cache settings and return.
+        settings = self._build_guild_settings(guild, row)
         self.guild_cache[guild.id] = settings
         return settings

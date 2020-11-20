@@ -7,5 +7,6 @@ class BadSetting(Exception):
 
 class UnknownSetting(Exception):
     """
-    Exception raised when providing an unknown setting.
+    Exception raised when attempting to access a setting
+    that does not exist.
     """

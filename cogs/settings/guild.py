@@ -64,30 +64,22 @@ class GuildSettings(object):
         """datetime.datetime: The datetime when the bot last joined the guild."""
         return self._last_joined
 
-    async def sync(self, connection=None):
-        """
-        Synchronize the model with the database.
-
-        Updates the fields of this object to be in sync with the database.
-
-        Has no effect if the associated database entry has been deleted.
+    def _update(self, **options):
+        r"""
+        Update the settings object.
 
         Parameters
         ----------
-        connection: Optional[asyncpg.connection.Connection]
-            A database connection to use.
+        \*\*options
+            The fields to update.
         """
-        query = 'SELECT * FROM "guild_settings" WHERE "guild"=$1;'
-        async with utils.db.maybe_acquire(self._bot.db, connection) as conn:
-            row = await conn.fetchrow(query, self._guild.id)
-            if row is None:
-                return
+        valid = ("prefix", "locale", "timezone", "last_joined")
 
-            self._prefix = row["prefix"]
-            self._locale = row["locale"]
-            self._timezone = row["timezone"]
-            self._last_joined = row["last_joined"]
-            self._first_joined = row["first_joined"]
+        for option, value in options.items():
+            if option not in valid:
+                raise TypeError(f"Received unexpected field: {option!r}!")
+
+            setattr(self, f"_{option}", value)
 
     async def update(self, connection=None, **options):
         """
@@ -130,14 +122,18 @@ class GuildSettings(object):
                 if len(value) == 0:
                     raise BadSetting("Guild prefix must not be empty!")
                 elif len(value) > 10:
-                    raise BadSetting("Guild prefix must be at most 10 characters long!")
+                    raise BadSetting(
+                        "Guild prefix must be at most 10 characters long!"
+                    )
 
             # TODO: Validate timezone.
 
         # Build the database query.
         skeleton = 'UPDATE "guild_settings"SET {assignments} WHERE "guild"=$1;'
         enumerated = list(enumerate(options.items(), 2))
-        assignments = ", ".join(f'"{pair[0]}"=${pos}' for pos, pair in enumerated)
+        assignments = ", ".join(
+            f'"{pair[0]}"=${pos}' for pos, pair in enumerated
+        )
         values = [pair[1] for _, pair in enumerated]
         query = skeleton.format(assignments=assignments)
 
@@ -145,8 +141,7 @@ class GuildSettings(object):
             await db.execute(query, self._guild.id, *values)
 
         # Update the model.
-        for option, value in options.items():
-            setattr(self, f"_{option}", value)
+        self._update(**options)
 
     def __repr__(self):
         return f"<GuildSettings guild={self._guild} prefix={self._prefix!r} locale={self._locale!r} timezone={self._timezone!r}>"
