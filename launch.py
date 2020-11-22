@@ -54,7 +54,7 @@ class Launcher:
         root = logging.getLogger()
         root.setLevel(logging.INFO)
 
-        for domain, level in config.logging_levels:
+        for domain, level in config.logging_domains:
             logging.getLogger(domain).setLevel(level)
 
         logging.getLogger("discord").setLevel(logging.WARNING)
