@@ -64,12 +64,13 @@ Fields
     ``database``    The name of the database to connect to.
     =============== ===========================================================
 
-.. data:: config.logging_levels
+.. data:: config.logging_domains
     :type: List[Tuple[str, int]]
     :value: [("senko", 20)]
 
-    A list of logging domains mapped to the logging level that should be set
-    for them when the launcher is setting up the logging module.
+    A list of logging domains and logging levels. Any log records emitted
+    by the corresponding domain whose level is equal or higher to the one
+    specified will be sent through the logging webhook.
 
 Template
 ********
@@ -114,4 +115,4 @@ Below you can find a template to create your own ``config.py``.
 
     # Logging domains and their default log levels.
     # Levels: CRITICAL = 50, ERROR = 40, WARNING = 30, INFO = 20, DEBUG = 10
-    logging_levels = [("senko", 10)]
+    logging_domains = [("senko", 10)]
