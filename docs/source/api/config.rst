@@ -30,6 +30,12 @@ Fields
 
     IDs of locales to be loaded from ``/data/locales/`` during setup.
 
+.. data:: config.timezone
+    :type: str
+    :value: "utc"
+
+    The default timezone for guilds and users.
+
 .. data:: config.locale
     :type: str
     :value: "en_GB"
@@ -90,6 +96,9 @@ Below you can find a template to create your own ``config.py``.
 
     # The default language to use. This should be a value from the list above.
     locale = "en_GB"
+
+    # The default timezone to use for users and guilds.
+    timezone = "utc"
 
     # A list of extensions to load from /cogs during the setup.
     extensions = ["extension1", "extension2", "extension3"]
