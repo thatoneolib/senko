@@ -54,8 +54,10 @@ class Launcher:
         root = logging.getLogger()
         root.setLevel(logging.INFO)
 
-        for domain, level in config.logging_domains:
-            logging.getLogger(domain).setLevel(level)
+        if config.debug:
+            logging.getLogger("senko").setLevel(logging.DEBUG)
+        else:
+            logging.getLogger("senko").setLevel(logging.INFO)
 
         logging.getLogger("discord").setLevel(logging.WARNING)
         logging.getLogger("discord.http").setLevel(logging.WARNING)

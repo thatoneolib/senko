@@ -80,6 +80,14 @@ Fields
     by the corresponding domain whose level is equal or higher to the one
     specified will be sent through the logging webhook.
 
+.. data:: config.debug
+    :type: bool
+    :value: False
+
+    Toggles debug mode. Enables more verbose logging, disables certain features
+    that should not be active when not in production and enables additional
+    functionality for debugging. This should not be enabled in production.
+
 Template
 ********
 
@@ -128,3 +136,8 @@ Below you can find a template to create your own ``config.py``.
     # Logging domains and their default log levels.
     # Levels: CRITICAL = 50, ERROR = 40, WARNING = 30, INFO = 20, DEBUG = 10
     logging_domains = [("senko", 20)]
+
+    # Toggles debug mode. Enables more verbose logging, disables certain features
+    # that should not be active when not in production and enables additional
+    # functionality for debugging. This should not be enabled in production.
+    debug = False
