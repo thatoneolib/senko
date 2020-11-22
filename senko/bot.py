@@ -56,6 +56,8 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         The asset library for emojis.
     images: senko.Images
         The asset library for images.
+    logging: senko.Logging
+        The internal logging module.
     """
 
     def __init__(self, db, session, loop):
@@ -112,6 +114,9 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         # Images
         self.images = senko.Images()
         self.images.load_dir(os.path.join(self.path, "data", "images"))
+
+        # Logging
+        self.logging = senko.Logging(self)
 
         # Extensions
         for ext in self.config.extensions:

@@ -14,6 +14,7 @@ directory.
     database
     l10n
     assets
+    logging
     colour
     context
     command

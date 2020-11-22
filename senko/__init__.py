@@ -12,6 +12,9 @@ from .colour import Colour
 from .assets import Emojis, Images
 from .l10n import Locale, Locales, NullLocale, LocaleMixin
 
+# Internals
+from .logging import Logging
+
 # Custom command framework
 from . import converters
 from .context import CommandContext, PartialContext
