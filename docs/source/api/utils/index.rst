@@ -14,3 +14,4 @@ directory.
     io
     dict
     db
+    string
