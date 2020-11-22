@@ -64,6 +64,14 @@ Fields
     ``database``    The name of the database to connect to.
     =============== ===========================================================
 
+.. data:: config.logging_webhook
+    :type: Optional[str]
+    :value: ...
+
+    An optional URL of a Discord webhook. When specified, unhandled command
+    errors and log messages of logging domains specified in
+    :data:`config.logging_domains` are sent through this webhook.
+
 .. data:: config.logging_domains
     :type: List[Tuple[str, int]]
     :value: [("senko", 20)]
@@ -113,6 +121,10 @@ Below you can find a template to create your own ``config.py``.
         database = "DATABASE",
     )
 
+    # The webhook through which unhandled command errors and the log messages from
+    # the domains defined in logging_domains are logged.
+    logging_webhook = "WEBHOOK URL"
+
     # Logging domains and their default log levels.
     # Levels: CRITICAL = 50, ERROR = 40, WARNING = 30, INFO = 20, DEBUG = 10
-    logging_domains = [("senko", 10)]
+    logging_domains = [("senko", 20)]
