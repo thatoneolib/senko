@@ -1,7 +1,7 @@
 import pytest
 import utils
 
-
+@pytest.mark.db
 @pytest.mark.asyncio
 async def test_without_connection(database):
     """Test maybe_acquire without an existing connection."""
@@ -11,6 +11,7 @@ async def test_without_connection(database):
     assert value == 1
 
 
+@pytest.mark.db
 @pytest.mark.asyncio
 async def test_with_connection(database):
     """Test maybe_acquire with an existing connection."""
