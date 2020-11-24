@@ -10,4 +10,5 @@ directory.
     :maxdepth: 2
     :caption: Cog Reference
 
+    error_handlers
     settings
