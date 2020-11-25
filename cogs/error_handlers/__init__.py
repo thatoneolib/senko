@@ -15,6 +15,11 @@ HANDLERS = {
     commands.BadUnionArgument: handlers.handle_bad_argument,
     commands.MissingRequiredArgument: handlers.handle_missing_required_argument,
     commands.TooManyArguments: handlers.handle_too_many_arguments,
+
+    # Quotation errors
+    commands.UnexpectedQuoteError: handlers.handle_unexpected_quote_error,
+    commands.InvalidEndOfQuotedStringError: handlers.handle_invalid_end_of_quoted_string_error,
+    commands.ExpectedClosingQuoteError: handlers.handle_expected_closing_quote_error,
 }
 
 # Extension methods

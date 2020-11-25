@@ -36,6 +36,9 @@ Exception                                                       Handler
 :exc:`~discord.ext.commands.BadUnionArgument`                   :func:`~cogs.error_handlers.handlers.handle_bad_argument`
 :exc:`~discord.ext.commands.MissingRequiredArgument`            :func:`~cogs.error_handlers.handlers.handle_missing_required_argument`
 :exc:`~discord.ext.commands.TooManyArguments`                   :func:`~cogs.error_handlers.handlers.handle_too_many_arguments`
+:exc:`~discord.ext.commands.UnexpectedQuoteError`               :func:`~cogs.error_handlers.handlers.handle_unexpected_quote_error`
+:exc:`~discord.ext.commands.InvalidEndOfQuotedStringError`      :func:`~cogs.error_handlers.handlers.handle_invalid_end_of_quoted_string_error`
+:exc:`~discord.ext.commands.ExpectedClosingQuoteError`          :func:`~cogs.error_handlers.handlers.handle_expected_closing_quote_error`
 =============================================================== ====================================================================
 
 Invocation Errors
@@ -50,11 +53,20 @@ Handlers for exceptions raised during the invocation of a command.
 Parameter and Parsing Errors
 ============================
 
-Handlers for exceptions raised while checking and parsing parameters.
+Handlers for exceptions raised while checking for and parsing parameters.
 
 .. autofunction:: cogs.error_handlers.handlers.handle_bad_argument
 .. autofunction:: cogs.error_handlers.handlers.handle_missing_required_argument
 .. autofunction:: cogs.error_handlers.handlers.handle_too_many_arguments
+
+Quotation Errors
+================
+
+Handlers for exceptions raised while handling quotation characters in parameters.
+
+.. autofunction:: cogs.error_handlers.handlers.handle_unexpected_quote_error
+.. autofunction:: cogs.error_handlers.handlers.handle_invalid_end_of_quoted_string_error
+.. autofunction:: cogs.error_handlers.handlers.handle_expected_closing_quote_error
 
 Custom Handlers
 ***************

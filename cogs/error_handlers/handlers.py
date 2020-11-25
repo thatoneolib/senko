@@ -19,6 +19,11 @@ __all__ = (
     "handle_bad_argument",
     "handle_missing_required_argument",
     "handle_too_many_arguments",
+
+    # Quotation errors
+    "handle_unexpected_quote_error",
+    "handle_invalid_end_of_quoted_string_error",
+    "handle_expected_closing_quote_error",
 )
 
 # Invocation errors
@@ -216,4 +221,89 @@ async def handle_too_many_arguments(ctx, exc):
         fields=[hint_field],
         colour=senko.Colour.error(),
         delete_after=15
+    )
+
+# Quotation errors
+
+async def handle_unexpected_quote_error(ctx, exc):
+    """
+    Exception handler for :exc:`~discord.ext.commands.UnexpectedQuoteError`.
+
+    Informs the user that quote marks must not appear inside of unquoted strings.
+    """
+    _ = ctx.locale
+
+    # NOTE: Title for the error message for unexpected quotation errors.
+    title = _("{e:error} Bad Quote")
+
+    # NOTE: Text for the error message for unexpected quotation errors.
+    text = _(
+        "**{user}**, quote marks must not appear inside of unquoted strings.\n"
+        "The conflicting quote mark was `{quote}`."
+    )
+
+    title = ctx.bot.emotes.format(title)
+    text = text.format(user=ctx.display_name, quote=exc.quote)
+
+    await ctx.embed(
+        title=title,
+        description=text,
+        colour=senko.Colour.error(),
+        delete_after=10
+    )
+
+async def handle_invalid_end_of_quoted_string_error(ctx, exc):
+    """
+    Exception handler for :exc:`~discord.ext.commands.InvalidEndOfQuotedStringError`.
+
+    Informs the user that closing quotation marks must be followed by nothing or
+    a space, but not a character.
+    """
+    _ = ctx.locale
+
+    # NOTE: Title of the error message for invalid quote errors.
+    title = _("{e:error} Invalid Quote")
+
+    # NOTE: Text of the error message for invalid quote errors.
+    text = _(
+        "**{user}**, quoted strings must be followed by nothing or a space.\n"
+        "The conflicting character was `{character}`."
+    )
+
+    title = ctx.bot.emotes.format(title)
+    text = text.format(user=ctx.display_name, character=exc.char)
+
+    await ctx.embed(
+        title=title,
+        description=text,
+        colour=senko.Colour.error(),
+        delete_after=10
+    )
+
+async def handle_expected_closing_quote_error(ctx, exc):
+    """
+    Exception handler for :exc:`~discord.ext.commands.ExpectedClosingQuoteError`.
+    
+    Informs the user that quotes must be closed.
+    """
+    _ = ctx.locale
+    user = discord.utils.escape_markdown(ctx.author.display_name)
+
+    # NOTE: Title of the error message for unclosed quotes in command parameters.
+    title = _("{e:error} Unclosed Quote")
+
+    # NOTE: Text of the error message for unclosed quotes in command parameters.
+    text = _(
+        "**{user}**, quotes must be closed. "
+        "The missing quote was `{character}`."
+    )
+
+    title = ctx.bot.emotes.format(title)
+    text = text.format(user=user, character=exc.close_quote)
+
+    await ctx.embed(
+        title=title,
+        description=text,
+        colour=senko.Colour.error(),
+        delete_after=10
     )
