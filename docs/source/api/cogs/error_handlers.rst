@@ -12,11 +12,6 @@ The error handlers defined in this extension are automatically added to the
 the extension is loaded, and are automatically removed when the extension is
 unloaded.
 
-Handlers
-********
-
-The extension implements handlers for the following exception types.
-
 .. note::
 
     Some handler functions have ``ctx, *args, **kwargs`` as their arguments.
@@ -24,8 +19,11 @@ The extension implements handlers for the following exception types.
     difference in arguments is caused by the :class:`~.count_calls` decorator
     that wraps the original handler function to inject the ``calls`` keyword.
 
-Discord.py
-==========
+Discord.py Handlers
+*******************
+
+The extension implements exception handlers for the following types from
+``discord.ext.commands``.
 
 =============================================================== ====================================================================
 Exception                                                       Handler
@@ -41,7 +39,7 @@ Exception                                                       Handler
 =============================================================== ====================================================================
 
 Invocation Errors
------------------
+=================
 
 Handlers for exceptions raised during the invocation of a command.
 
@@ -50,7 +48,7 @@ Handlers for exceptions raised during the invocation of a command.
 .. autofunction:: cogs.error_handlers.handlers.handle_disabled_command
 
 Parameter and Parsing Errors
-----------------------------
+============================
 
 Handlers for exceptions raised while checking and parsing parameters.
 
@@ -58,8 +56,11 @@ Handlers for exceptions raised while checking and parsing parameters.
 .. autofunction:: cogs.error_handlers.handlers.handle_missing_required_argument
 .. autofunction:: cogs.error_handlers.handlers.handle_too_many_arguments
 
-Custom
-======
+Custom Handlers
+***************
+
+The extension further implements exception handlers for the following custom
+exception types.
 
 .. todo:: Document custom exception handlers.
 
