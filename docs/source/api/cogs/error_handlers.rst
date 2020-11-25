@@ -33,6 +33,11 @@ Exception                                                       Handler
 :exc:`~discord.ext.commands.CommandNotFound`                    :func:`~cogs.error_handlers.handlers.handle_command_not_found`
 :exc:`~discord.ext.commands.CommandOnCooldown`                  :func:`~cogs.error_handlers.handlers.handle_command_on_cooldown`
 :exc:`~discord.ext.commands.DisabledCommand`                    :func:`~cogs.error_handlers.handlers.handle_disabled_command`.
+
+:exc:`~discord.ext.commands.BadArgument`                        :func:`~cogs.error_handlers.handlers.handle_bad_argument`
+:exc:`~discord.ext.commands.BadUnionArgument`                   :func:`~cogs.error_handlers.handlers.handle_bad_argument`
+:exc:`~discord.ext.commands.MissingRequiredArgument`            :func:`~cogs.error_handlers.handlers.handle_missing_required_argument`
+:exc:`~discord.ext.commands.TooManyArguments`                   :func:`~cogs.error_handlers.handlers.handle_too_many_arguments`
 =============================================================== ====================================================================
 
 Invocation Errors
@@ -43,6 +48,15 @@ Handlers for exceptions raised during the invocation of a command.
 .. autofunction:: cogs.error_handlers.handlers.handle_command_not_found
 .. autofunction:: cogs.error_handlers.handlers.handle_command_on_cooldown
 .. autofunction:: cogs.error_handlers.handlers.handle_disabled_command
+
+Parameter and Parsing Errors
+----------------------------
+
+Handlers for exceptions raised while checking and parsing parameters.
+
+.. autofunction:: cogs.error_handlers.handlers.handle_bad_argument
+.. autofunction:: cogs.error_handlers.handlers.handle_missing_required_argument
+.. autofunction:: cogs.error_handlers.handlers.handle_too_many_arguments
 
 Custom
 ======

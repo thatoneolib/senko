@@ -52,7 +52,7 @@ def help_invocation_for_command(prefix, command, locale):
         given locale.
     """
     command_name = command.get_qualified_name(locale)
-    help_name = _("#command_help_name")
+    help_name = locale("#command_help_name")
     return f"{prefix}{help_name} {command_name}"
 
 def hint_for_command(prefix, command, locale):
