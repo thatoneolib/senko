@@ -363,7 +363,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         prefix = self.config.prefix
         locale_id = self.config.locale
 
-        if message.channel.guild:
+        if isinstance(message.channel, discord.TextChannel):
             try:
                 cog = self.cogs["settings"]
             except KeyError:
@@ -407,7 +407,7 @@ class Senko(senko.LocaleMixin, commands.AutoShardedBot):
         prefix = self.config.prefix
         locale_id = self.config.locale
 
-        if channel.guild:
+        if isinstance(channel, discord.TextChannel):
             try:
                 cog = self.cogs["settings"]
             except KeyError:
