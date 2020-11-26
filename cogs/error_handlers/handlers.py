@@ -557,9 +557,6 @@ async def handle_extension_error(ctx, exc):
 
     Informs the user of the exception and attaches the traceback for
     :exc:`~discord.ext.commands.ExtensionFailed`.
-    
-    The messages sent by this handler are not translated as they will
-    never appear for regular users.
     """
     extra = dict()
     title = ":gear: Extension Error"
