@@ -15,3 +15,8 @@ Truncate
 ********
 
 .. autofunction:: utils.string.truncate
+
+Human Join
+**********
+
+.. autofunction:: utils.string.human_join
