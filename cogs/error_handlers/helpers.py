@@ -1,6 +1,8 @@
 import time
+import utils
 
 __all__ = (
+    "format_permissions",
     "usage_for_command",
     "help_invocation_for_command",
     "hint_for_command",
@@ -8,6 +10,35 @@ __all__ = (
 )
 
 # Localization helpers
+
+def format_permissions(permissions, locale):
+    """
+    Format a list of permissions into a human readable list.
+
+    Parameters
+    ----------
+    permissions: List[str]
+        A list of permission IDs to format.
+    locale: senko.Locale
+        The locale to use.
+    
+    Returns
+    -------
+    str
+        The formatted permissions string.
+    """
+    _ = locale
+    keys = [f"#permission_{perm}" for perm in permissions]
+    names = [_(key) for key in keys]
+
+    return utils.string.human_join(
+        names,
+        bold=True,
+        # NOTE: Concatenator word "and" for an enumeration.\n
+        # NOTE: Examples: "1 and 2", "1, 2 and 3".
+        # DEFAULT: and
+        concatenator=_("#join_and"),
+    )
 
 def usage_for_command(prefix, command, locale):
     """

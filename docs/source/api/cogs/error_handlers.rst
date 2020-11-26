@@ -36,9 +36,24 @@ Exception                                                       Handler
 :exc:`~discord.ext.commands.BadUnionArgument`                   :func:`~cogs.error_handlers.handlers.handle_bad_argument`
 :exc:`~discord.ext.commands.MissingRequiredArgument`            :func:`~cogs.error_handlers.handlers.handle_missing_required_argument`
 :exc:`~discord.ext.commands.TooManyArguments`                   :func:`~cogs.error_handlers.handlers.handle_too_many_arguments`
+
 :exc:`~discord.ext.commands.UnexpectedQuoteError`               :func:`~cogs.error_handlers.handlers.handle_unexpected_quote_error`
 :exc:`~discord.ext.commands.InvalidEndOfQuotedStringError`      :func:`~cogs.error_handlers.handlers.handle_invalid_end_of_quoted_string_error`
 :exc:`~discord.ext.commands.ExpectedClosingQuoteError`          :func:`~cogs.error_handlers.handlers.handle_expected_closing_quote_error`
+
+:exc:`~discord.ext.commands.MissingPermissions`                 :func:`~cogs.error_handlers.handlers.handle_missing_permissions`
+:exc:`~discord.ext.commands.BotMissingPermissions`              :func:`~cogs.error_handlers.handlers.handle_bot_missing_permissions`
+:exc:`~discord.ext.commands.NoPrivateMessages`                  :func:`~cogs.error_handlers.handlers.handle_no_private_message`
+:exc:`~discord.ext.commands.PrivateMessageOnly`                 :func:`~cogs.error_handlers.handlers.handle_private_message_only`
+:exc:`~discord.ext.commands.NSFWChannelRequired`                :func:`~cogs.error_handlers.handlers.handle_nsfw_channel_required`
+:exc:`~discord.ext.commands.NotOwner`                           :func:`~cogs.error_handlers.handlers.handle_not_owner`
+
+:exc:`~discord.ext.commands.ExtensionError`                     :func:`~cogs.error_handlers.handlers.handle_extension_error`
+:exc:`~discord.ext.commands.ExtensionAlreadyLoaded`             :func:`~cogs.error_handlers.handlers.handle_extension_error`
+:exc:`~discord.ext.commands.ExtensionNotLoaded`                 :func:`~cogs.error_handlers.handlers.handle_extension_error`
+:exc:`~discord.ext.commands.NoEntryPointError`                  :func:`~cogs.error_handlers.handlers.handle_extension_error`
+:exc:`~discord.ext.commands.ExtensionFailed`                    :func:`~cogs.error_handlers.handlers.handle_extension_error`
+:exc:`~discord.ext.commands.ExtensionNotFound`                  :func:`~cogs.error_handlers.handlers.handle_extension_error`
 =============================================================== ====================================================================
 
 Invocation Errors
@@ -67,6 +82,25 @@ Handlers for exceptions raised while handling quotation characters in parameters
 .. autofunction:: cogs.error_handlers.handlers.handle_unexpected_quote_error
 .. autofunction:: cogs.error_handlers.handlers.handle_invalid_end_of_quoted_string_error
 .. autofunction:: cogs.error_handlers.handlers.handle_expected_closing_quote_error
+
+Check Errors
+============
+
+Handlers for exceptions raised in command checks native to ``discord.ext.commands``.
+
+.. autofunction:: cogs.error_handlers.handlers.handle_missing_permissions
+.. autofunction:: cogs.error_handlers.handlers.handle_bot_missing_permissions
+.. autofunction:: cogs.error_handlers.handlers.handle_no_private_message
+.. autofunction:: cogs.error_handlers.handlers.handle_private_message_only
+.. autofunction:: cogs.error_handlers.handlers.handle_nsfw_channel_required
+.. autofunction:: cogs.error_handlers.handlers.handle_not_owner
+
+Extension Errors
+================
+
+Handlers for exceptions raised when loading or unloading extensions.
+
+.. autofunction:: cogs.error_handlers.handlers.handle_extension_error
 
 Custom Handlers
 ***************

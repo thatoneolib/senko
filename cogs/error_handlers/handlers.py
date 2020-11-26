@@ -4,10 +4,11 @@ import traceback
 
 import discord
 import senko
+import utils
 from babel.dates import format_timedelta
 from discord.ext import commands
 
-from .helpers import count_calls, hint_for_command
+from .helpers import count_calls, hint_for_command, format_permissions
 
 __all__ = (
     # Invocation errors
@@ -24,6 +25,17 @@ __all__ = (
     "handle_unexpected_quote_error",
     "handle_invalid_end_of_quoted_string_error",
     "handle_expected_closing_quote_error",
+
+    # Check errors
+    "handle_missing_permissions",
+    "handle_bot_missing_permissions",
+    "handle_no_private_message",
+    "handle_private_message_only",
+    "handle_nsfw_channel_required",
+    "handle_not_owner",
+
+    # Extension errors
+    "handle_extension_error",
 )
 
 # Invocation errors
@@ -71,7 +83,7 @@ async def handle_command_on_cooldown(ctx, exc, calls=0):
         title=title,
         description=text,
         colour=senko.Colour.error(),
-        delete_after=10,
+        delete_after=15,
     )
 
 @count_calls(30, commands.BucketType.channel)
@@ -101,7 +113,7 @@ async def handle_disabled_command(ctx, exc, calls=0):
         title=title,
         description=text,
         colour=senko.Colour.error(),
-        delete_after=10,
+        delete_after=15,
     )
 
 # Parameter and parsing errors
@@ -249,7 +261,7 @@ async def handle_unexpected_quote_error(ctx, exc):
         title=title,
         description=text,
         colour=senko.Colour.error(),
-        delete_after=10
+        delete_after=15
     )
 
 async def handle_invalid_end_of_quoted_string_error(ctx, exc):
@@ -277,7 +289,7 @@ async def handle_invalid_end_of_quoted_string_error(ctx, exc):
         title=title,
         description=text,
         colour=senko.Colour.error(),
-        delete_after=10
+        delete_after=15
     )
 
 async def handle_expected_closing_quote_error(ctx, exc):
@@ -305,5 +317,275 @@ async def handle_expected_closing_quote_error(ctx, exc):
         title=title,
         description=text,
         colour=senko.Colour.error(),
-        delete_after=10
+        delete_after=15
     )
+
+
+# Check errors
+
+@count_calls(10, commands.BucketType.member)
+async def handle_missing_permissions(ctx, exc, calls=0):
+    """
+    Exception handler for :exc:`~discord.ext.commands.MissingPermissions`.
+
+    Informs the user of the permissions they are missing to run the command.
+    
+    Has a cooldown of 10 seconds per member.
+    """
+    if calls > 0:
+        return
+        
+    _ = ctx.locale
+
+    # NOTE: Title of the error message for missing permissions.
+    title = _("{e:error} Missing Permissions")
+
+    # NOTE: Text of the error message for missing permissions.
+    # NOTE: 'permissions' is a formatted list of permissions of varying length.
+    # NOTE: Examples: 'manage channels', 'manage channels and manage messages'
+    text = _(
+        "**{user}**, you are missing the following permissions to "
+        "use `{command}`: {permissions}."
+    )
+
+    # Format text
+    permissions = format_permissions(exc.missing_perms, _)
+    command = ctx.command.get_qualified_name(_)
+    title = ctx.bot.emotes.format(title)
+    text = text.format(
+        user=ctx.display_name, 
+        command=command, 
+        permissions=permissions
+    )
+
+    await ctx.embed(
+        title=title,
+        description=text,
+        colour=senko.Colour.error(),
+        delete_after=15
+    )
+
+@count_calls(10, commands.BucketType.member)
+async def handle_bot_missing_permissions(ctx, exc, calls=0):
+    """
+    Exception handler for :exc:`~discord.ext.commands.BotMissingPermissions`.
+
+    Informs the user of the permissions the bot is missing to run the command.
+    
+    Has a cooldown of 10 seconds per member.
+    """
+    if calls > 0:
+        return
+        
+    _ = ctx.locale
+
+    # NOTE: Title of the error message for missing bot permissions.
+    title = _("{e:error} Bot Missing Permissions")
+
+    # NOTE: Text of the error message for missing bot permissions.
+    # NOTE: 'permissions' is a formatted list of permissions of varying length.
+    # NOTE: Examples: 'manage channels', 'manage channels and manage messages'
+    text = _(
+        "**{user}**, I am missing the following permissions to "
+        "run `{command}`: {permissions}."
+    )
+
+    # Format text
+    permissions = format_permissions(exc.missing_perms, _)
+    command = ctx.command.get_qualified_name(_)
+    title = ctx.bot.emotes.format(title)
+    text = text.format(
+        user=ctx.display_name, 
+        command=command, 
+        permissions=permissions
+    )
+
+    await ctx.embed(
+        title=title,
+        description=text,
+        colour=senko.Colour.error(),
+        delete_after=15
+    )
+
+@count_calls(10, commands.BucketType.user)
+async def handle_no_private_message(ctx, exc, calls=0):
+    """
+    Exception handler for :exc:`~discord.ext.commands.NoPrivateMessage`.
+
+    Informs the user that the command can not be used in private messages.
+    
+    Has a cooldown of 10 seconds per user.
+    """
+    if calls > 0:
+        return
+
+    _ = ctx.locale
+
+    # NOTE: Title of the error message for commands that can not be used in DMs.
+    title = _("{e:error} No Private Messages")
+
+    # NOTE: Text of the error message for commands that can not be used in DMs.
+    text = _(
+        "**{user}**, the `{command}` command can not be used in "
+        "private messages."
+    )
+
+    command = ctx.command.get_qualified_name(_)
+
+    # Format text
+    title = ctx.bot.emotes.format(title)
+    text = text.format(user=ctx.display_name, command=command)
+
+    await ctx.embed(
+        title=title,
+        description=text,
+        colour=senko.Colour.error(),
+        delete_after=15
+    )
+
+@count_calls(10, commands.BucketType.user)
+async def handle_private_message_only(ctx, exc, calls=0):
+    """
+    Exception handler for :exc:`~discord.ext.commands.PrivateMessageOnly`.
+
+    Informs the user that the command can only be used in private messages.
+    
+    Has a cooldown of 10 seconds per user.
+    """
+    if calls > 0:
+        return
+        
+    _ = ctx.locale
+
+    # NOTE: Title of the error message for commands that can only be used in DMs.
+    title = _("{e:error} Private Messages Only")
+
+    # NOTE: Text of the error message for commands that can only be used in DMs.
+    text = _(
+        "**{user}**, the `{command}` command can only be used in "
+        "private messages."
+    )
+
+    command = ctx.command.get_qualified_name(_)
+
+    # Format text
+    title = ctx.bot.emotes.format(title)
+    text = text.format(user=ctx.display_name, command=command)
+
+    await ctx.embed(
+        title=title,
+        description=text,
+        colour=senko.Colour.error(),
+        delete_after=15
+    )
+
+@count_calls(10, commands.BucketType.user)
+async def handle_nsfw_channel_required(ctx, exc, calls=0):
+    """
+    Exception handler for :exc:`~discord.ext.commands.NSFWChannelRequired`.
+
+    Informs the user that the command can only be used in NSFW channels.
+    
+    Has a cooldown of 10 seconds per user.
+    """
+    if calls > 0:
+        return
+        
+    _ = ctx.locale
+
+    # NOTE: Title of the error message for commands that can only be used in NSFW channels.
+    title = _(":underage: NSFW Channel Required")
+
+    # NOTE: Text of the error message for commands that can only be used in NSFW channels.
+    text = _("**{user}**, the `{command}` command can only be used in NSFW channels.")
+
+    command = ctx.command.get_qualified_name(_)
+
+    # Format text
+    title = ctx.bot.emotes.format(title)
+    text = text.format(user=ctx.display_name, command=command)
+
+    await ctx.embed(
+        title=title,
+        description=text,
+        colour=senko.Colour.error(),
+        delete_after=15
+    )
+
+@count_calls(10, commands.BucketType.user)
+async def handle_not_owner(ctx, exc, calls=0):
+    """
+    Exception handler for :exc:`~discord.ext.commands.NotOwner`.
+
+    Informs the user that the command can only be used by an owner.
+
+    Has a cooldown of 10 seconds per user.
+    """
+    if calls > 0:
+        return
+        
+    _ = ctx.locale
+
+    # NOTE: Title of the error message for commands that can only be used by an owner.
+    title = _(":no_entry_sign: Owner Only")
+
+    # NOTE: Text of the error message for commands that can only be used by an owner.
+    text = _("**{user}**, the `{command}` command can only be used by the owner.")
+
+    command = ctx.command.get_qualified_name(_)
+
+    # Format text
+    title = ctx.bot.emotes.format(title)
+    text = text.format(user=ctx.display_name, command=command)
+
+    await ctx.embed(
+        title=title,
+        description=text,
+        colour=senko.Colour.error(),
+        delete_after=15
+    )
+
+# Extension errors
+
+async def handle_extension_error(ctx, exc):
+    """
+    Exception handler for :exc:`~discord.ext.commands.ExtensionError` and
+    its derived exception types.
+
+    As this is a handler for a more technical exception it does not support
+    localization.
+
+    Informs the user of the exception and attaches the traceback for
+    :exc:`~discord.ext.commands.ExtensionFailed`.
+    
+    The messages sent by this handler are not translated as they will
+    never appear for regular users.
+    """
+    extra = dict()
+    title = ":gear: Extension Error"
+
+    if isinstance(exc, commands.ExtensionAlreadyLoaded):
+        text = "**{user}**, the `{extension}` extension is already loaded."
+    elif isinstance(exc, commands.ExtensionNotLoaded):
+        text = "**{user}**, the `{extension}` extension is not loaded."
+    elif isinstance(exc, commands.NoEntryPointError):
+        text = "**{user}**, the `{extension}` extension does not have a setup function."
+    elif isinstance(exc, commands.ExtensionNotFound):
+        text = "**{user}**, the `{extension}` extension could not be found."
+    elif isinstance(exc, commands.ExtensionFailed):
+        text = "**{user}**, the `{extension}` extension could not be loaded due to an error."
+
+        original = exc.original
+        trace = "".join(traceback.format_exception(type(original), original, original.__traceback__))
+
+        if len(trace) > 1000:
+            display = f"```\n{trace[:990]}...```"
+            buffer = io.BytesIO(trace.encode("utf-8"))
+            extra["file"] = discord.File(buffer, f"traceback.txt")
+        else:
+            display = f"```\n{trace}```"
+
+        extra["fields"] = [dict(name="Traceback", value=display)]
+
+    text = text.format(user=ctx.display_name, extension=exc.name)
+    await ctx.embed(title=title, description=text, colour=senko.Colour.error(), **extra)
