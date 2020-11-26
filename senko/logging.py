@@ -104,6 +104,7 @@ class Logging:
         except Exception as e:
             t = type(exc).__name__
             self.log.exception(f"An error occured while handling {t!r}!", exc_info=e)
+            await self._default_handler(ctx, exc)
 
     # Private functions
 
