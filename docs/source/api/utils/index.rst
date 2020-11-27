@@ -15,3 +15,4 @@ directory.
     dict
     db
     string
+    errors

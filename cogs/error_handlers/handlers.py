@@ -36,6 +36,10 @@ __all__ = (
 
     # Extension errors
     "handle_extension_error",
+
+    # Custom errors
+    "handle_quiet_exit",
+    "handle_embed_exit",
 )
 
 # Invocation errors
@@ -320,7 +324,6 @@ async def handle_expected_closing_quote_error(ctx, exc):
         delete_after=15
     )
 
-
 # Check errors
 
 @count_calls(10, commands.BucketType.member)
@@ -586,3 +589,42 @@ async def handle_extension_error(ctx, exc):
 
     text = text.format(user=ctx.display_name, extension=exc.name)
     await ctx.embed(title=title, description=text, colour=senko.Colour.error(), **extra)
+
+# Custom errors
+
+async def handle_quiet_exit(ctx, exc):
+    """
+    Exception handler for :exc:`~utils.errors.QuietExit`.
+
+    Silently ignores the error.
+    """
+    pass
+
+async def handle_embed_exit(ctx, exc):
+    """
+    Exception handler for :exc:`~utils.errors.EmbedExit`.
+
+    Sends an embed styled using the ``kwargs`` dictionary of the exception.
+
+    Uses fallback values for the embed title and colour if not provided:
+
+    * The default ``title`` is ``{e:critical} An Error Occured``.
+    * The default ``colour`` is :func:`senko.Colour.red`.
+    """
+    _ = ctx.locale
+    kwargs = exc.kwargs
+
+    title = kwargs.get(
+        "title",
+        # NOTE: Default title for embedded error messages.
+        _("{e:critical} An Error Occured")
+    )
+
+    title = ctx.bot.emotes.format(title)
+    colour = kwargs.get("color", kwargs.get("colour", senko.Colour.red()))
+
+    await ctx.embed(
+        title=title,
+        colour=colour,
+        **kwargs
+    )

@@ -1,7 +1,10 @@
-from . import handlers
-import discord
 import logging
+
+import discord
+import utils
 from discord.ext import commands
+
+from . import handlers
 
 # Exception handlers
 
@@ -37,6 +40,10 @@ HANDLERS = {
     commands.NoEntryPointError: handlers.handle_extension_error,
     commands.ExtensionFailed: handlers.handle_extension_error,
     commands.ExtensionNotFound: handlers.handle_extension_error,
+
+    # Custom errors
+    utils.errors.QuietExit: handlers.handle_quiet_exit,
+    utils.errors.EmbedExit: handlers.handle_embed_exit
 }
 
 # Extension methods

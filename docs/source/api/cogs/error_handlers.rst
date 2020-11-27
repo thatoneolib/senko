@@ -108,7 +108,16 @@ Custom Handlers
 The extension further implements exception handlers for the following custom
 exception types.
 
-.. todo:: Document custom exception handlers.
+
+=============================================================== ====================================================================
+Exception                                                       Handler
+=============================================================== ====================================================================
+:exc:`utils.errors.QuietExit`                                   :func:`~cogs.error_handlers.handlers.handle_quiet_exit`
+:exc:`utils.errors.EmbedExit`                                   :func:`~cogs.error_handlers.handlers.handle_embed_exit`
+=============================================================== ====================================================================
+
+.. autofunction:: cogs.error_handlers.handlers.handle_quiet_exit
+.. autofunction:: cogs.error_handlers.handlers.handle_embed_exit
 
 Helpers
 *******
